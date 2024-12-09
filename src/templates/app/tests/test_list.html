@@ -1,0 +1,130 @@
+{% extends 'app/dashboard/dashboard.html' %}
+
+<!-- Load static -->
+{% load static %}
+
+<!-- Turn off auth notifications -->
+{% block auth_messages %}{% endblock auth_messages %}
+<!-- Turn off auth notifications -->
+
+{% block breadcrumbs %}
+<!---->
+{% block current_page %}Tests{% endblock current_page %}
+<!---->
+{% endblock breadcrumbs %}
+<!---->
+{% block title %}Tests{% endblock title %}
+
+<!-- Content start -->
+{% block dashboard_content%}
+<div class="row">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h6>List test</h6>
+      </div>
+        {% if request.user.is_superuser %} {% else %} {% endif %}
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h5 class="mb-0">Filter</h5>
+            <form action="#" method="GET">
+              <select class="form-select w-auto" name="filter" onchange="this.form.submit()">
+                  <option value="today" {% if filter_option == 'today' %}selected{% endif %}>Today</option>
+                  <option value="week" {% if filter_option == 'week' %}selected{% endif %}>Weekly</option>
+                  <option value="month" {% if filter_option == 'month' %}selected{% endif %}>Monthly</option>
+                  <option value="all" {% if filter_option == 'all' %}selected{% endif %}selected>All</option>
+                </select>
+            </form>
+          </div>
+          <div class="table-responsive">
+            <div
+              class="datatable-wrapper datatable-loading no-footer searchable fixed-columns"
+            >
+              <div class="datatable-container">
+                <table
+                  class="table table-hover datatable-table"
+                  id="pc-dt-simple"
+                >
+                  <thead>
+                    <tr>
+                      <th>NAME</th>
+                      <th>STATUS</th>
+                      <th>CREATED</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for test in tests %}
+                    <a href="#">
+                      <tr data-index="{{ test.id}}">
+                        <td>
+                          <div class="row align-items-center">
+                            <div class="col-auto pe-0">
+                              <img
+                                src="{% static 'assets/images/widget/img-prod-1.jpg' %}"
+                                alt="user-image"
+                                class="wid-55 hei-55 rounded"
+                              />
+                            </div>
+                            <div class="col">
+                              <a href="{% url 'test-detail' test.id %}">
+                                <h6 class="mb-2">
+                                  <span class="text-truncate w-100">
+                                    <a href="{% url 'test-detail' test.id %}">{{ test.test_response.test_work.title }}</a>
+                                  </span>
+                                </h6>
+                              </a>
+                              <p class="text-muted f-12 mb-0">
+                                <span class="text-truncate w-100">
+                                  {{ test.test_response.content|truncatechars:50 }}
+                                </span>
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          {% if test%}
+                          <span class="badge bg-success">Виконаний</span>
+                          {% else %}
+                          <span class="badge bg-danger">Невиконаний</span>
+                          {% endif %}
+                        </td>
+                        <td class="f-w-600">
+                          {{ test.created_at|date:"D d M Y" }}
+                        </td>
+                      </tr>
+                    </a>
+
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+              <nav aria-label="...">
+                <ul class="pagination">
+                  <li class="page-item disabled">
+                    <span class="page-link">Previous</span>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="#!">1</a>
+                  </li>
+                  <li class="page-item active">
+                    <span class="page-link">
+                      2
+                      <span class="sr-only"> (current) </span>
+                    </span>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="#!">3</a>
+                  </li>
+                  <li class="page-item">
+                    <a class="page-link" href="#!">Next</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+{% endblock dashboard_content %}
+<!-- Content End -->

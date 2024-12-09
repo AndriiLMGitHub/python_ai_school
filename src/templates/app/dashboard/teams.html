@@ -1,0 +1,57 @@
+{% extends 'app/dashboard/dashboard.html' %}
+
+<!-- Load static -->
+{% load static %}
+
+<!-- Turn off auth notifications -->
+{% block auth_messages %}{% endblock auth_messages %}
+<!-- Turn off auth notifications -->
+
+{% block breadcrumbs %}
+<!---->
+{% block current_page %}Teams{% endblock current_page %}
+<!---->
+{% endblock breadcrumbs %} {% block title %}Teams{% endblock title %}
+
+<!-- Content start -->
+{% block dashboard_content%}
+<div class="col-12">
+  <div class="card">
+    <div class="card-header">
+      <h5>Teams</h5>
+    </div>
+    <div class="card-body px-0 py-2">
+      <ul class="list-group list-group-flush">
+        {% if teams %}
+        <!---->
+        {% for team in teams %}
+        <li class="list-group-item">
+          <div class="d-flex align-items-center">
+            <div class="flex-shrink-0">
+              <img
+                src="{% if team.image %}{{ team.image.url}}{% else %}{% static 'assets/images/logo-dark.svg' %}{% endif %}"
+                alt="user-image"
+                class="user-avtar rounded wid-50 hie-50"
+              />
+            </div>
+            <div class="flex-grow-1 mx-3">{{ team.name }}</div>
+
+            <div class="flex-shrink-0">
+              <a
+                href="{% url 'team-detail' team.id %}"
+                class="avtar avtar-s btn-link-secondary"
+                ><i class="ti ti-chevron-right f-20"></i
+              ></a>
+            </div>
+          </div>
+        </li>
+        {% endfor %} {% else %}
+        <div>
+          <p class="pt-2 text-muted ms-4">No teams found</p>
+        </div>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</div>
+{% endblock dashboard_content %}

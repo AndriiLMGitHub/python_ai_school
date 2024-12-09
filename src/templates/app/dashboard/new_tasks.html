@@ -1,0 +1,99 @@
+{% extends 'app/dashboard/dashboard.html' %}
+
+<!-- Load static -->
+{% load static %}
+
+<!-- Turn off auth notifications -->
+{% block auth_messages %}{% endblock auth_messages %}
+
+{% block breadcrumbs %}
+{% block current_page %}New tasks{% endblock current_page %}
+{% endblock breadcrumbs %}
+
+{% block title %}New tasks{% endblock title %}
+
+<!-- Content start -->
+{% block dashboard_content%}
+<div class="row mt-3">
+  <!-- Tasks start -->
+  {% if tasks_undone %}
+  <!-- Loop tasks start -->
+  {% for task in tasks_undone %}
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h5>{{ task.name }}</h5>
+      </div>
+      <div class="card-body btn-page">
+        <p class="card-text">{{ task.description|truncatechars:100 }}</p>
+        <a href="{% url 'task-detail' task.id %}" class="btn btn-primary" class="btn btn-primary">
+          View detail
+          <i data-feather="arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <!-- Loop tasks start -->
+  {% else %}
+  <div class="card">
+    <div class="card-header">
+      <h6>New tasks</h6>
+    </div>
+    <div class="card-body">
+      <p>No tasks yet</p>
+    </div>
+  </div>
+  {% endif %}
+  <!-- Tasks end -->
+</div>
+</div>
+</div>
+</div>
+
+<!--Modal start-->
+<!-- <div class="modal fade modal-animate" id="animateModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Animate Modal : fade-in-scale</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h5>This is a modal window</h5>
+        <p>You can do the following things with it:</p>
+        <p>
+          <b>Read:</b> modal windows will probably tell you something important
+          so don't forget to read what they say.
+        </p>
+        <p>
+          <b>Look:</b> a modal window enjoys a certain kind of attention; just
+          look at it and appreciate its presence.
+        </p>
+        <p class="mb-0">
+          <b>Close:</b> click on the button below to close the modal.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+        <button type="button" class="btn btn-primary shadow-2">
+          Save changes
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+<!--Modal start-->
+{% endblock dashboard_content %}
+<!-- Content end -->

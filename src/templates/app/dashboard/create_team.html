@@ -1,0 +1,64 @@
+{% extends 'app/dashboard/dashboard.html' %}
+
+<!-- Load static -->
+{% load static %}
+
+<!-- Turn off auth notifications -->
+{% block auth_messages %}{% endblock auth_messages %}
+<!-- Turn off auth notifications -->
+
+{% block breadcrumbs %}
+<!---->
+{% block current_page %}Create team{% endblock current_page %}
+<!---->
+{% endblock breadcrumbs %}
+
+<!---->
+{% block title %}Create team{% endblock title%}
+
+<!-- Content start -->
+{% block dashboard_content%}
+<div class="row">
+  <div class="col-lg-8 col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h6 class="mb-0">Create a new team</h6>
+      </div>
+      <div class="card-body">
+        <form action="#" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="id_name" class="form-label">Team name</label>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Enter name"
+              name="name"
+              required
+              maxlength="128"
+              id="id_name"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="id_image" class="form-label">File</label>
+            <input
+              class="form-control"
+              name="image"
+              type="file"
+              id="id_image"
+            />
+          </div>
+          <div class="mt-3">
+            <button type="submit" class="btn btn-success">
+              Create team
+              <i data-feather="check-circle"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock dashboard_content %}
+
+<!-- Content End -->

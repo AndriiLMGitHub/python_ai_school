@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+<!-- Load static -->
+
+{% load static %}
+
+<!-- Turn off auth notifications -->
+{% block auth_messages %} {% endblock auth_messages %}
+
+<!-- Turn off auth notifications -->
+
+<!-- Block start -->
+
+{% block main %}
+<div class="loader-bg">
+  <div class="loader-track">
+    <div class="loader-fill"></div>
+  </div>
+</div>
+<!-- [ Pre-loader ] End -->
+<div class="maintenance-block">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="error-card">
+          <div class="card-body">
+            <div class="error-image-block text-center mt-5">
+              <img
+                class="img-fluid"
+                src="https://ableproadmin.com/assets/images/pages/img-error-404.svg"
+                alt="img"
+              />
+            </div>
+            <div class="text-center">
+              <h1 class="mt-5"><b>Page Not Found</b></h1>
+              <p class="mt-2 mb-4 text-muted">
+                The page you are looking was moved, removed,<br />renamed, or
+                might never exist!
+              </p>
+              <a href="{% url 'dashboard' %}" class="btn btn-primary mb-3"
+                >Go to home</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock main %}
+
+<!-- Block end -->

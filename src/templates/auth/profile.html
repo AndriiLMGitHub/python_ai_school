@@ -1,0 +1,203 @@
+{% extends 'app/dashboard/dashboard.html' %}
+
+<!-- Load static -->
+{% load static %}
+
+<!--Custom styles-->
+{% block styles %} {% endblock styles %}
+
+<!-- Turn off auth notifications -->
+
+{% block auth_messages %} {% endblock auth_messages %}
+
+<!-- Turn off auth notifications -->
+{% block title %}My account{% endblock title %}
+
+<!-- Content start -->
+{% block dashboard_content %}
+<div class="row pt-0">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Personal Information</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12">
+            <div
+              class="alert alert-primary d-flex align-items-center"
+              role="alert"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+                <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                  <path
+                    d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"
+                  ></path>
+                </symbol>
+              </svg>
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24">
+                <use xlink:href="#info-fill"></use>
+              </svg>
+              <div>Всі поля не обовязкові до заповнення</div>
+            </div>
+          </div>
+        </div>
+        <form action="#" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row">
+            <div class="col-sm-12 text-center mb-3">
+              <div class="user-upload wid-75">
+                <img
+                  src="{% if request.user.profile.image %}{{ request.user.profile.image.url }}{% else %}{%static 'assets/images/user/avatar-1.jpg'%}{% endif %}"
+                  alt="img"
+                  class="img-fluid rounded-circle"
+                />
+                <label for="id_image" class="img-avtar-upload">
+                  <i class="ti ti-camera f-24 mb-1"></i>
+                  <span>Upload</span>
+                </label>
+                <input type="file" name="image" id="id_image" class="d-none" />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="mb-3">
+                <label class="form-label">First Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ request.user.first_name }}"
+                  readonly="true"
+                />
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="mb-3">
+                <label class="form-label">Last Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  value="{{ request.user.last_name }}"
+                  readonly="true"
+                />
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="mb-3">
+                <label class="form-label">
+                  Chose your gender
+                  <!-- <span class="text-danger">(this field is required) * </span> -->
+                </label>
+                <select class="form-control" name="sex" id="id_sex">
+                  {% for opt in form.sex %} {{ opt }} {% endfor %}
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-12">
+              <div class="mb-3">
+                <label class="form-label" for="id_birth_date">
+                  Date of Birth
+                </label>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="birth_date"
+                  id="id_birth_date"
+                />
+              </div>
+            </div>
+
+            <!-- <div class="col-sm-6">
+                  <div class="mb-3">
+                    <label class="form-label">Country</label>
+                    <input type="text" class="form-control" value="New York" />
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="mb-3">
+                    <label class="form-label">Zip code</label>
+                    <input type="text" class="form-control" value="956754" />
+                  </div>
+                </div> -->
+            <div class="col-sm-12">
+              <div class="mb-3">
+                <label class="form-label">Bio</label>
+                <textarea
+                  class="form-control"
+                  name="bio"
+                  id="id_bio"
+                  maxlength="255"
+                  cols="40"
+                  rows="10"
+                  value="{{ request.user.profile.bio }}"
+                ></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="mb-3">
+                  <label class="form-label">Contact Phone</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="{{ request.user.profile.phone_number }}"
+                    name="phone_number"
+                    id="id_phone_number"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="mb-3">
+                  <label class="form-label">
+                    Email
+                    <span class="text-danger"> * </span>
+                  </label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="{{ request.user.email }}"
+                    readonly="true"
+                  />
+                </div>
+              </div>
+              <!-- <div class="col-sm-12">
+                <div class="mb-3">
+                  <label class="form-label">Portfolio Url</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="https://demo.com"
+                  />
+                </div>
+              </div> -->
+              <div class="col-sm-12">
+                <div class="mb-3">
+                  <label class="form-label">Address</label>
+                  <input
+                    type="text"
+                    name="address"
+                    class="form-control"
+                    value="{{ request.user.profile.address }}"
+                    id="id_address"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 btn-page mt-2">
+            <div>
+              <a class="btn btn-outline-danger" href="{% url 'dashboard' %}"
+                >Cancel</a
+              >
+              <button class="btn btn-primary" type="submit">
+                <i data-feather="arrow-up"></i>
+                Update Profile
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock dashboard_content %}
+<!-- Content end-->

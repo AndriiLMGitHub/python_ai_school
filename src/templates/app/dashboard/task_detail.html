@@ -1,0 +1,156 @@
+{% extends 'app/dashboard/dashboard.html' %}
+
+<!-- Load static -->
+{% load static %}
+
+<!-- Turn off auth notifications -->
+{% block auth_messages %}{% endblock auth_messages %}
+
+<!-- Turn off auth notifications -->
+{% block breadcrumbs %}
+<li class="breadcrumb-item">
+  <a href="{% url 'new-tasks' %}">New tasks</a>
+</li>
+<!--Breadcrumbs-->
+{% block current_page %}Task view{% endblock current_page %}
+<!--Breadcrumbs-->
+{% endblock breadcrumbs %}
+
+<!--Title-->
+
+{% block title %}Task view{% endblock title %}
+
+<!--Dashboard main-->
+{% block dashboard_content%}
+<div class="row">
+  <div class="col-lg-8 col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>
+          <i data-feather="book"></i>
+          {{ task.name }}
+        </h5>
+      </div>
+      <div class="card-body pc-component">
+        <p>{{ task.description }}</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h5>
+          <i data-feather="check-circle" class="me-1"></i>
+          Press checkbox if you solved task
+        </h5>
+      </div>
+      <div class="card-body">
+        {% if task.is_completed %}
+        <div class="alert alert-success">
+          <i data-feather="check-circle" class="me-2"></i>
+          Task has been solved.
+        </div>
+        {% else %}
+        <form action="#" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="col-lg-12">
+            <div class="border card p-3">
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  id="id_is_completed"
+                  name="is_completed"
+                  required
+                  class="form-check-input input-primary me-2"
+                />
+                <label class="form-check-label d-block" for="id_is_completed">
+                  <span>
+                    <span class="h5 d-block">
+                      <strong class="float-end">
+                        <span class="badge bg-light-success"> Get it </span>
+                      </strong>
+                      Solved task
+                    </span>
+                    <span class="f-12 text-muted">
+                      If you press this checkbox<br />
+                      Your task will be solved and saved in database
+                    </span>
+                  </span>
+                </label>
+              </div>
+            </div>
+            <div class="input-group">
+              <label class="input-group-text" for="id_image">
+                <i data-feather="upload-cloud" class="me-2"></i>
+                Upload
+              </label>
+
+              <input
+                type="file"
+                name="image"
+                id="id_image"
+                class="form-control"
+              />
+            </div>
+            <small>Your can attach image with solving task.</small>
+          </div>
+          <button type="submit" class="btn btn-primary mt-4">
+            Submit
+            <i data-feather="check-circle"></i>
+          </button>
+        </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>
+          <i data-feather="help-circle" class="me-1"></i>
+          Need help?
+        </h5>
+      </div>
+      <div class="card-body">
+        <p>
+          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita,
+          iure officia. Cumque porro, suscipit dignissimos vel, reprehenderit
+          repellat dolor maxime et numquam unde, eos consequuntur labore. Iste
+          assumenda expedita neque!
+        </p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <h5>
+          <i data-feather="heart" class="me-1"></i>
+          AI helping
+        </h5>
+      </div>
+      <div class="card-body">
+        <p>
+          <a
+            href="{% url 'get-help-formula' task.id %}"
+            class="btn btn-success"
+            id="btn-response"
+          >
+            Help me
+            <i data-feather="aperture"></i>
+          </a>
+        </p>
+        <p>
+          <a
+            href="{% url 'get-help-answer' task.id %}"
+            class="btn btn-success"
+            id="btn-response"
+          >
+            Help me
+            <i data-feather="aperture"></i>
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {% endblock dashboard_content%}
+
+  <!---->
+</div>

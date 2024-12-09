@@ -1,0 +1,52 @@
+{% extends 'app/dashboard/dashboard.html' %}
+
+<!-- Load static -->
+{% load static %}
+
+<!-- Turn off auth notifications -->
+{% block auth_messages %} {% endblock auth_messages %}
+<!-- Turn off auth notifications -->
+{% block breadcrumbs %} {% block current_page %}
+<!--Text-->
+Help me
+<!--Text-->
+{% endblock current_page%} {% endblock breadcrumbs %}
+<!--Breadcrumbs-->
+
+{% block title %}Helping{% endblock title %}
+
+<!---->
+{% block dashboard_content%}
+<div class="row">
+  <!-- [ sample-page ] start -->
+  <div class="col-sm-12">
+    <div class="card">
+      <div class="card-header">
+        <h5>Solving</h5>
+      </div>
+      <div class="card-body">
+        <p class="lead text-center">{{ response }}</p>
+        <p class="text-center">
+          <a
+            href="{% url 'get-help-formula' task.id %}"
+            class="btn btn-light-success"
+          >
+            <i data-feather="refresh-cw" class="me-2"></i>
+            Try again
+          </a>
+          <a
+            href="{% url 'task-detail' task.id %}"
+            class="btn btn-light-success"
+          >
+            <i data-feather="arrow-left"></i>
+            Back to task
+          </a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <!-- [ sample-page ] end -->
+</div>
+
+<!---->
+{% endblock dashboard_content %}

@@ -1,0 +1,164 @@
+{% extends 'app/dashboard/dashboard.html' %}
+
+<!-- Load static -->
+{% load static %}
+
+<!-- Turn off auth notifications -->
+{% block auth_messages %}{% endblock auth_messages %}
+<!-- Turn off auth notifications -->
+
+{% block breadcrumbs %}
+<!---->
+{% block current_page %}Create test{% endblock current_page %}
+<!---->
+{% endblock breadcrumbs %}
+<!---->
+{% block title %}Create test{% endblock title %}
+
+<!-- Content start -->
+{% block dashboard_content%}
+<div class="row">
+  <div class="col-lg-8 col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h6>
+          <i data-feather="plus"></i>
+          Create Test
+        </h6>
+      </div>
+      <div class="card-body">
+        <form action="#" method="POST">
+          {% csrf_token %}
+          <div class="col-md-12">
+            <div class="mb-3">
+              <label for="id_title" class="form-label">Title</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter title"
+                name="title"
+                required
+                maxlength="128"
+                id="id_title"
+              />
+              <small class="text-muted ms-1">Name this test</small>
+            </div>
+            <div class="mb-3">
+              <label for="id_topic" class="form-label">Topic</label>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter topic"
+                name="topic"
+                required
+                id="id_topic"
+                maxlength="128"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="id_quantity" class="form-label">Quantity</label>
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Enter quantity"
+                name="quantity_questions"
+                required
+                id="id_quantity_questions"
+                value="6"
+                min="0"
+              />
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="id_form_class">Form class:</label>
+              <select name="form_class" id="id_form_class" class="form-select">
+                <option value="7" selected="">7 клас</option>
+                <option value="8">8 клас</option>
+                <option value="9">9 клас</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="id_difficulty">Difficulty</label>
+              <select class="form-select" id="id_difficulty" name="difficulty">
+                <option value="легкий" selected>Легкий</option>
+                <option value="середньої складності">
+                  Середньої складності
+                </option>
+                <option value="тяжкий">Тяжкий</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="id_description">Description</label>
+              <textarea
+                class="form-control"
+                rows="2"
+                placeholder="Enter description"
+                name="description"
+                id="id_description"
+              ></textarea>
+            </div>
+          </div>
+          <div class="mt-2">
+            <button type="submit" class="btn btn-primary" id="ai-submit">
+              Submit
+              <i data-feather="check-circle"></i>
+              <!-- <i data-feather="x"></i>
+                <i data-feather="clock"></i>
+                <i data-feather="edit-2"></i>
+                <i data-feather="trash-2"></i>
+                <i data-feather="eye"></i>
+                <i data-feather="eye-off"></i>
+                <i data-feather="help-circle"></i>
+                <i data-feather="calendar"></i>
+                <i data-feather="download"></i>
+                <i data-feather="upload"></i>
+                <i data-feather="more-horizontal"></i>
+                <i data-feather="message-square"></i>
+                <i data-feather="user-plus"></i>
+                <i data-feather="user-minus"></i>
+                <i data-feather="user-check"></i> -->
+            </button>
+            <button type="reset" class="btn btn-danger">
+              Reset
+              <i data-feather="x"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h6>
+          <i data-feather="help-circle"></i>
+          Need help?
+        </h6>
+      </div>
+      <div class="card-body">
+        <p>
+          {% if result %} {{result}} {% else %} Lorem ipsum dolor sit amet
+          consectetur adipisicing elit. Ipsum, ducimus illo? Fugit ad inventore
+          totam, provident numquam in ea cum doloribus, officia quasi
+          consectetur qui consequuntur excepturi! Enim, voluptatum
+          explicabo.dasasass {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock dashboard_content %}
+<!-- Content end -->
+{% block scripts %}
+<script>
+  // Your JavaScript code here
+  // Example:
+  // document
+  //   .getElementById("ai-submit")
+  //   .addEventListener("click", function (event) {
+  //     event.preventDefault();
+  //     // Your code here
+  //     // Example:
+  //     alert("Form submitted!");
+  //   });
+</script>
+{% endblock scripts %}

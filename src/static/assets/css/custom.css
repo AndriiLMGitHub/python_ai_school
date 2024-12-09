@@ -1,0 +1,9 @@
+.landing-image {
+  display: block;
+  max-width: 100%;
+  height: auto !important;
+}
+
+.v-height {
+  height: 100vh;
+}
