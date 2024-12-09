@@ -104,16 +104,16 @@ def task_detail_view(request, task_id):
     return render(request, 'app/dashboard/task_detail.html', {'task': task, 'form': form})
 
 
-@never_cache
-@sync_to_async
+# @never_cache
+# @sync_to_async
 def get_help_formula_view(request, task_id):
     task = Task.objects.get(pk=task_id)
     result = get_g4f_formula(task.description)
     return render(request, 'app/dashboard/get_help.html', {'response': result, 'task': task})
 
 
-@never_cache
-@sync_to_async
+# @never_cache
+# @sync_to_async
 def get_help_answer_view(request, task_id):
     task = Task.objects.get(pk=task_id)
     result = get_g4f_answer(task.description)
@@ -159,8 +159,8 @@ def create_team_view(request):
     return render(request, 'app/dashboard/create_team.html', {'form': form})
 
 
-@never_cache
-@sync_to_async
+# @never_cache
+# @sync_to_async
 def create_test_view(request):
     result = ""
     form = TestWorkForm()
