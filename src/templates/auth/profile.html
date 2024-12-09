@@ -48,7 +48,7 @@
             <div class="col-sm-12 text-center mb-3">
               <div class="user-upload wid-75">
                 <img
-                  src="{% if request.user.profile.image %}{{ request.user.profile.image.url }}{% else %}{%static 'assets/images/user/avatar-1.jpg'%}{% endif %}"
+                  src="{% if request.user.profile.image %}{{ request.user.profile.image.url }}{% else %}{% if request.user.profile.sex == 'male' %}{%static 'assets/images/user/avatar-1.jpg'%}{% else %}{%static 'assets/images/user/avatar-3.jpg'%}{% endif %}{% endif %}"
                   alt="img"
                   class="img-fluid rounded-circle"
                 />

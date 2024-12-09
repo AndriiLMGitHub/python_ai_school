@@ -34,7 +34,7 @@
           <div class="d-flex align-items-center">
             <div class="flex-shrink-0">
               <img
-                src="{% if request.user.profile.image %}{{ request.user.profile.image.url }}{% else %}{%static 'assets/images/user/avatar-1.jpg'%}{% endif %}"
+                src="{% if request.user.profile.image %}{{ request.user.profile.image.url }}{% else %}{% if request.user.profile.sex == 'male' %}{%static 'assets/images/user/avatar-1.jpg'%}{% else %}{%static 'assets/images/user/avatar-3.jpg'%}{% endif %}{% endif %}"
                 alt="user-image"
                 class="user-avtar wid-45 rounded-circle"
               />
@@ -459,7 +459,7 @@
             aria-expanded="false"
           >
             <img
-              src="{% if request.user.profile.image %}{{ request.user.profile.image.url }}{% else %}{%static 'assets/images/user/avatar-1.jpg'%}{% endif %}"
+              src="{% if request.user.profile.image %}{{ request.user.profile.image.url }}{% else %}{% if request.user.profile.sex == 'male' %}{%static 'assets/images/user/avatar-1.jpg'%}{% else %}{%static 'assets/images/user/avatar-3.jpg'%}{% endif %}{% endif %}"
               alt="user-image"
               class="user-avtar"
             />
@@ -480,7 +480,7 @@
                 <div class="d-flex mb-1">
                   <div class="flex-shrink-0">
                     <img
-                      src="{% if request.user.profile.image %}{{ request.user.profile.image.url }}{% else %}{%static 'assets/images/user/avatar-1.jpg'%}{% endif %}"
+                      src="{% if request.user.profile.image %}{{ request.user.profile.image.url }}{% else %}{% if request.user.profile.sex == 'male' %}{%static 'assets/images/user/avatar-1.jpg'%}{% else %}{%static 'assets/images/user/avatar-3.jpg'%}{% endif %}{% endif %}"
                       alt="user-image"
                       class="user-avtar wid-35"
                     />
