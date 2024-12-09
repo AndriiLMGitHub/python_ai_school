@@ -17,7 +17,7 @@ idna==3.10
 multidict==6.1.0
 nest-asyncio==1.6.0
 oauthlib==3.2.2
-pillow==11.0.0
+Pillow==10.1.0
 propcache==0.2.0
 pycparser==2.22
 pycryptodome==3.21.0
