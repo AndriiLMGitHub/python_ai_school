@@ -113,7 +113,8 @@ class AnswerTest(models.Model):
         on_delete=models.CASCADE,
         related_name='answers',
     )
-    test = models.OneToOneField(TestWorkResponse, on_delete=models.CASCADE)
+    test = models.ForeignKey(
+        TestWorkResponse, on_delete=models.CASCADE)
     answers = models.JSONField(null=True, blank=True)
     score = models.PositiveIntegerField(default=1, validators=[
         MinValueValidator(1),

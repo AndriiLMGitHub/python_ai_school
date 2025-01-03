@@ -7,10 +7,10 @@
 {% block auth_messages %}{% endblock auth_messages %}
 
 {% block breadcrumbs %}
-{% block current_page %}New tasks{% endblock current_page %}
+{% block current_page %}Нові завдання{% endblock current_page %}
 {% endblock breadcrumbs %}
 
-{% block title %}New tasks{% endblock title %}
+{% block title %}Нові завдання{% endblock title %}
 
 <!-- Content start -->
 {% block dashboard_content%}
@@ -27,7 +27,7 @@
       <div class="card-body btn-page">
         <p class="card-text">{{ task.description|truncatechars:100 }}</p>
         <a href="{% url 'task-detail' task.id %}" class="btn btn-primary" class="btn btn-primary">
-          View detail
+          Переглянути деталі
           <i data-feather="arrow-right"></i>
         </a>
       </div>
@@ -38,10 +38,10 @@
   {% else %}
   <div class="card">
     <div class="card-header">
-      <h6>New tasks</h6>
+      <h6>Нові завдання</h6>
     </div>
     <div class="card-body">
-      <p>No tasks yet</p>
+      <p>Завдань ще немає</p>
     </div>
   </div>
   {% endif %}

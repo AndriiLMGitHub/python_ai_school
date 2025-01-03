@@ -30,7 +30,7 @@ def signup_view(request):
 
                 # Email confirmation
                 current_site = get_current_site(request)
-                subject = _("Activate Your Account")
+                subject = _("Активуйте свій акаунт")
                 message = render_to_string("auth/account_activation_email.html", {
                     "user": user,
                     "domain": current_site.domain,
@@ -41,10 +41,10 @@ def signup_view(request):
                     user.email], fail_silently=False)
 
                 messages.success(request, _(
-                    "Registration successful. Check your email to confirm your account."))
+                    "Реєстрація успішна. Перевірте свою електронну пошту, щоб підтвердити обліковий запис."))
                 return redirect("signin")
             else:
-                messages.error(request, _("Please correct the errors."))
+                messages.error(request, _("Будь ласка, виправте помилки."))
                 return redirect('signup')
         else:
             form = CustomUserSignUpForm()
@@ -62,24 +62,40 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         messages.success(request, _(
-            "Your account has been activated. You can now log in."))
+            "Ваш обліковий запис активовано. Тепер ви можете увійти."))
         return redirect("signin")
     else:
         messages.error(request, _(
-            "Activation link is invalid or has expired."))
+            "Посилання для активації недійсне або термін його дії минув."))
         return redirect("signup")
 
 
+@login_required(login_url="/account/signin/")
 def complete_user(request):
+    """
+    Перевіряє, чи користувач вперше заходить через соціальну авторизацію.
+    Якщо вперше, показує форму. Якщо ні — перенаправляє на профіль.
+    """
+    user = request.user
+
+    # Перевіряємо, чи є запис у UserSocialAuth для цього користувача
+    user_social_auth_exists = UserSocialAuth.objects.filter(user=user).exists()
+
+    # Якщо користувач має запис у UserSocialAuth і його дані вже заповнені
+    if user_social_auth_exists and user.form_pupil:  # Перевірка, чи заповнено поле form_pupil
+        return redirect('profile')
+
+    # Якщо користувач вперше заходить або дані не заповнені, показуємо форму
     if request.method == 'POST':
         form = CompleteUserSocialForm(request.POST)
         if form.is_valid():
-            user = request.user
+            # Зберігаємо дані з форми
             user.form_pupil = form.cleaned_data['form_pupil']
             user.save()
             return redirect('profile')
     else:
         form = CompleteUserSocialForm()
+
     return render(request, 'auth/complete_user.html', {'form': form})
 
 
@@ -94,16 +110,17 @@ def signin_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, _(
-                    "You have successfully logged in."))
+                    "Ви успішно ввійшли."))
                 return redirect('profile')
             else:
-                messages.error(request, _("Invalid email or password."))
+                messages.error(request, _(
+                    "Неправильна адреса електронної пошти або пароль."))
     return render(request, 'auth/login.html')
 
 
 def signout_view(request):
     logout(request)
-    messages.success(request, _("You have successfully logged out."))
+    messages.success(request, _("Ви успішно вийшли."))
     return redirect('signin')
 
 
@@ -113,12 +130,12 @@ class CustomPasswordChangeView(SuccessMessageMixin, PasswordChangeView):
 
     def form_valid(self, form):
         messages.success(
-            self.request, "Password has been changed successfully!")
+            self.request, "Пароль успішно змінено!")
         return super().form_valid(form)
 
     def form_invalid(self, form):
         messages.error(
-            self.request, "There was an error changing your password. Please try again.")
+            self.request, "Під час зміни пароля сталася помилка. Спробуйте ще раз.")
         return super().form_invalid(form)
 
     def is_social_user(self):
@@ -148,11 +165,11 @@ def profile_view(request):
                 form.user = request.user
                 form.save()
                 messages.success(request, _(
-                    "Profile has been updated successfully!"))
+                    "Профіль успішно оновлено!"))
                 return redirect('dashboard')
             else:
                 messages.error(request, _(
-                    "There was an error updating your profile. Please try again."))
+                    "Під час оновлення профілю сталася помилка. Спробуйте ще раз."))
                 print(form.errors)
         else:
             form = ProfileForm(instance=request.user.profile)

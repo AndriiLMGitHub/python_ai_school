@@ -9,12 +9,12 @@
 
 {% block breadcrumbs %}
 <!---->
-{% block current_page %}Create team{% endblock current_page %}
+{% block current_page %}Створення нової команди{% endblock current_page %}
 <!---->
 {% endblock breadcrumbs %}
 
 <!---->
-{% block title %}Create team{% endblock title%}
+{% block title %}Створити нову команкду{% endblock title%}
 
 <!-- Content start -->
 {% block dashboard_content%}
@@ -22,13 +22,13 @@
   <div class="col-lg-8 col-md-12">
     <div class="card">
       <div class="card-header">
-        <h6 class="mb-0">Create a new team</h6>
+        <h6 class="mb-0">Створіть нову команду</h6>
       </div>
       <div class="card-body">
         <form action="#" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="mb-3">
-            <label for="id_name" class="form-label">Team name</label>
+            <label for="id_name" class="form-label">Назва команди</label>
             <input
               class="form-control"
               type="text"
@@ -40,7 +40,7 @@
             />
           </div>
           <div class="mb-3">
-            <label for="id_image" class="form-label">File</label>
+            <label for="id_image" class="form-label">Додати файл</label>
             <input
               class="form-control"
               name="image"
@@ -50,7 +50,7 @@
           </div>
           <div class="mt-3">
             <button type="submit" class="btn btn-success">
-              Create team
+              Створити команду
               <i data-feather="check-circle"></i>
             </button>
           </div>

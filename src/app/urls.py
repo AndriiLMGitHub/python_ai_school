@@ -25,6 +25,10 @@ urlpatterns = [
         views.get_help_answer_view,
         name='get-help-answer'
     ),
+    path('dashboard/task/detail/<int:task_id>/help/with/stucture/',
+
+         views.get_help_structure_view,
+         name='get-help-stucture'),
     # Team urlpattern
     path(
         'dashboard/teams/',
@@ -44,5 +48,8 @@ urlpatterns = [
     path('dashboard/tests/detail/<int:test_id>/',
          views.test_detail_view, name='test-detail'),
     path('tests/create/test/', views.create_test_view, name='create-test'),
+
+    # Assessments urlpattern
+    path('dashboard/assessments/', views.assessments_view, name='assessments'),
 
 ]

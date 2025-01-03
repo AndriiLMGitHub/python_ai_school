@@ -13,7 +13,7 @@ Help me
 {% endblock current_page%} {% endblock breadcrumbs %}
 <!--Breadcrumbs-->
 
-{% block title %}Helping{% endblock title %}
+{% block title %}Допомога AI{% endblock title %}
 
 <!---->
 {% block dashboard_content%}
@@ -22,7 +22,7 @@ Help me
   <div class="col-sm-12">
     <div class="card">
       <div class="card-header">
-        <h5>Solving</h5>
+        <h5>Розв'язання</h5>
       </div>
       <div class="card-body">
         <p class="lead text-center">{{ response }}</p>
@@ -32,14 +32,14 @@ Help me
             class="btn btn-light-success"
           >
             <i data-feather="refresh-cw" class="me-2"></i>
-            Try again
+            Спробуйте знову
           </a>
           <a
             href="{% url 'task-detail' task.id %}"
             class="btn btn-light-success"
           >
             <i data-feather="arrow-left"></i>
-            Back to task
+            Повернутися до завдання
           </a>
         </p>
       </div>

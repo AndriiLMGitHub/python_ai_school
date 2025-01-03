@@ -18,7 +18,7 @@ class CustomUser(AbstractUser):
         _("Form"),
         max_length=10,
         choices=FORMS,
-        default="7 form"
+        # default="7"
     )
 
     USERNAME_FIELD = "email"

@@ -63,19 +63,15 @@
             <div class="pt-3">
               <a href="{% url 'profile' %}">
                 <i class="ti ti-user"></i>
-                <span>My Account</span>
+                <span>Мій акаунт</span>
               </a>
               <a href="#!">
                 <i class="ti ti-settings"></i>
-                <span>Settings</span>
-              </a>
-              <a href="#!">
-                <i class="ti ti-lock"></i>
-                <span>Lock Screen</span>
+                <span>Налаштування</span>
               </a>
               <a href="{% url 'logout' %}">
                 <i class="ti ti-power"></i>
-                <span>Logout</span>
+                <span>Вийти</span>
               </a>
             </div>
           </div>
@@ -84,7 +80,7 @@
 
       <ul class="pc-navbar">
         <li class="pc-item pc-caption">
-          <label>Tasks</label>
+          <label>Завдання</label>
         </li>
 
         <li class="pc-item">
@@ -94,7 +90,7 @@
                 <use xlink:href="#custom-status-up"></use>
               </svg>
             </span>
-            <span class="pc-mtext">List tasks</span>
+            <span class="pc-mtext">Список завдань</span>
           </a>
         </li>
         <li class="pc-item">
@@ -104,7 +100,7 @@
                 <use xlink:href="#custom-notification-status"></use>
               </svg>
             </span>
-            <span class="pc-mtext">New tasks</span>
+            <span class="pc-mtext">Нові завдання</span>
           </a>
         </li>
         <li class="pc-item">
@@ -114,12 +110,12 @@
                 <use xlink:href="#custom-user"></use>
               </svg>
             </span>
-            <span class="pc-mtext">Teams</span>
+            <span class="pc-mtext">Команди</span>
           </a>
         </li>
 
         <li class="pc-item pc-caption">
-          <label>Test control</label>
+          <label>Тести</label>
         </li>
         <li class="pc-item">
           <a href="{% url 'list-tests' %}" class="pc-link"
@@ -127,7 +123,7 @@
               <svg class="pc-icon">
                 <use xlink:href="#custom-shield"></use>
               </svg> </span
-            ><span class="pc-mtext">Tests</span></a
+            ><span class="pc-mtext">Список тестів</span></a
           >
         </li>
         {% if request.user.is_superuser %}
@@ -137,23 +133,23 @@
               <svg class="pc-icon">
                 <use xlink:href="#custom-password-check"></use>
               </svg> </span
-            ><span class="pc-mtext">Create test</span></a
+            ><span class="pc-mtext">Створити тест</span></a
           >
         </li>
         {% endif %}
         <li class="pc-item pc-caption">
-          <label>Results</label>
+          <label>Результати</label>
           <svg class="pc-icon">
             <use xlink:href="#custom-box-1"></use>
           </svg>
         </li>
         <li class="pc-item">
-          <a href="../elements/bc_typography.html" class="pc-link"
+          <a href="{% url 'assessments' %}" class="pc-link"
             ><span class="pc-micon">
               <svg class="pc-icon">
                 <use xlink:href="#custom-text-block"></use>
               </svg> </span
-            ><span class="pc-mtext">Evaluations</span></a
+            ><span class="pc-mtext">Оцінки</span></a
           >
         </li>
         <!-- <li class="pc-item">
@@ -333,13 +329,13 @@
               <svg class="pc-icon">
                 <use xlink:href="#custom-moon"></use>
               </svg>
-              <span>Dark</span>
+              <span>Темний</span>
             </a>
             <a href="#!" class="dropdown-item" onclick="layout_change('light')">
               <svg class="pc-icon">
                 <use xlink:href="#custom-sun-1"></use>
               </svg>
-              <span>Light</span>
+              <span>Світлий</span>
             </a>
             <a
               href="#!"
@@ -349,7 +345,7 @@
               <svg class="pc-icon">
                 <use xlink:href="#custom-setting-2"></use>
               </svg>
-              <span>Default</span>
+              <span>Системний</span>
             </a>
           </div>
         </li>
@@ -372,23 +368,23 @@
           >
             <a href="#!" class="dropdown-item">
               <i class="ti ti-user"></i>
-              <span>My Account</span>
+              <span>Мій профіль</span>
             </a>
             <a href="#!" class="dropdown-item">
               <i class="ti ti-settings"></i>
-              <span>Settings</span>
+              <span>Налаштування</span>
             </a>
             <a href="#!" class="dropdown-item">
               <i class="ti ti-headset"></i>
-              <span>Support</span>
+              <span>Допомога</span>
             </a>
-            <a href="#!" class="dropdown-item">
+            <!-- <a href="#!" class="dropdown-item">
               <i class="ti ti-lock"></i>
               <span>Lock Screen</span>
-            </a>
+            </a> -->
             <a href="#!" class="dropdown-item">
               <i class="ti ti-power"></i>
-              <span>Logout</span>
+              <span>Вийти</span>
             </a>
           </div>
         </li>
@@ -470,7 +466,7 @@
             <div
               class="dropdown-header d-flex align-items-center justify-content-between"
             >
-              <h5 class="m-0">Profile</h5>
+              <h5 class="m-0">Профіль</h5>
             </div>
             <div class="dropdown-body">
               <div
@@ -524,7 +520,7 @@
                     <svg class="pc-icon text-muted me-2">
                       <use xlink:href="#custom-setting-outline"></use>
                     </svg>
-                    <span>Settings</span>
+                    <span>Налаштування</span>
                   </span>
                 </a>
                 <!-- <a href="#" class="dropdown-item">
@@ -540,11 +536,11 @@
                     <svg class="pc-icon text-muted me-2">
                       <use xlink:href="#custom-lock-outline"></use>
                     </svg>
-                    <span>Change Password</span>
+                    <span>Змінити пароль</span>
                   </span>
                 </a>
                 <hr class="border-secondary border-opacity-50" />
-                <p class="text-span">Team</p>
+                <p class="text-span">Команди</p>
                 {% for team in teams %}
                 <a href="{% url 'team-detail' team.id %}" class="dropdown-item">
                   <span>
@@ -573,7 +569,7 @@
                     <svg class="pc-icon text-muted me-2">
                       <use xlink:href="#custom-add-outline"></use>
                     </svg>
-                    <span>Create new team</span>
+                    <span>Створити команду</span>
                   </span>
                   <div class="user-group">
                     <span class="avtar bg-primary text-white">
@@ -590,7 +586,7 @@
                     <svg class="pc-icon me-2">
                       <use xlink:href="#custom-logout-1-outline"></use>
                     </svg>
-                    Logout
+                    Вийти
                   </a>
                 </div>
                 <div
@@ -661,7 +657,7 @@
             {% block breadcrumb %}
             <ul class="breadcrumb">
               <li class="breadcrumb-item">
-                <a href="{% url 'dashboard' %}">Home</a>
+                <a href="{% url 'dashboard' %}">Головна</a>
               </li>
 
               <li class="breadcrumb-item" aria-current="page">
@@ -673,7 +669,7 @@
           <div class="col-md-12">
             <div class="page-header-title">
               <h2 class="mb-0">
-                {% block title %}Dashboard{% endblock title %}
+                {% block title %}Панель управління{% endblock title %}
               </h2>
             </div>
           </div>
@@ -742,7 +738,7 @@
         <div class="card">
           <div class="card-body pb-0">
             <div class="d-flex align-items-center justify-content-between">
-              <h5 class="mb-0">My latest tasks</h5>
+              <h5 class="mb-0">Мої останні завдання</h5>
               <div class="dropdown">
                 <a
                   class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
@@ -752,11 +748,11 @@
                   aria-expanded="false"
                   ><i class="ti ti-dots-vertical f-18"></i
                 ></a>
-                <div class="dropdown-menu dropdown-menu-end">
+                <!-- <div class="dropdown-menu dropdown-menu-end">
                   <a class="dropdown-item" href="#">Today</a>
                   <a class="dropdown-item" href="#">Weekly</a>
                   <a class="dropdown-item" href="#">Monthly</a>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -812,7 +808,7 @@
               <div
                 class="d-flex align-items-center justify-content-center gap-2"
               >
-                <p class="mb-0 text-muted">No tasks found</p>
+                <p class="mb-0 text-muted">Завдань не знайдено</p>
               </div>
             </li>
             {% endif %}
@@ -825,7 +821,7 @@
               href="{% url 'all-tasks' %}"
               class="btn btn-primary d-flex align-items-center justify-content-center gap-2 {% if tasks %}{% else %}disabled{% endif %}"
             >
-              View all tasks
+              Переглянути всі завдання
               <i class="ti ti-arrow-right"></i>
             </a>
           </div>
@@ -835,7 +831,7 @@
         <div class="card">
           <div class="card-body pb-0">
             <div class="d-flex align-items-center justify-content-between">
-              <h5 class="mb-0">Team members</h5>
+              <h5 class="mb-0">Члени команди</h5>
               <div class="dropdown">
                 <a
                   class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
@@ -845,11 +841,11 @@
                   aria-expanded="false"
                   ><i class="ti ti-dots-vertical f-18"></i
                 ></a>
-                <div class="dropdown-menu dropdown-menu-end">
+                <!-- <div class="dropdown-menu dropdown-menu-end">
                   <a class="dropdown-item" href="#">Today</a>
                   <a class="dropdown-item" href="#">Weekly</a>
                   <a class="dropdown-item" href="#">Monthly</a>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -880,9 +876,9 @@
                     {{ request.user.email }} {% endif %}
                   </h6>
                   <p class="mb-0">
-                    {% if member.is_leader %} Leader {% else %}
+                    {% if member.is_leader %} Лідер {% else %}
                     <!---->
-                    Pupil {% endif %}
+                    Учень {% endif %}
                   </p>
                 </div>
                 <div class="flex-shrink-0">
@@ -891,7 +887,9 @@
               </div>
             </li>
             {% endfor %} {% else %}
-            <p class="text-center page-block text-muted">No member found</p>
+            <p class="text-center page-block text-muted">
+              Учасників не знайдено
+            </p>
             {% endif %}
           </ul>
         </div>

@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf import settings
 from social_core.utils import setting_name
 from django.contrib.auth import views as auth_views
-from .social_views import complete, disconnect
+from .social_views import complete, disconnect, auth
 from . import views
 
 extra = getattr(settings, setting_name("TRAILING_SLASH"), True) and "/" or ""
@@ -19,6 +19,7 @@ urlpatterns = [
     path('profile/', views.profile_view, name='profile'),
 
     # Social authentication
+    path(f"login/<str:backend>{extra}", auth, name="begin"),
     path(f"complete/<str:backend>{extra}", complete, name="complete"),
     path(f"disconnect/<str:backend>{extra}",
          disconnect, name="disconnect"),

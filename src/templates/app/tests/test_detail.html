@@ -9,11 +9,11 @@
 
 {% block breadcrumbs %}
 <!---->
-{% block current_page %}Test{% endblock current_page %}
+{% block current_page %}Тест{% endblock current_page %}
 <!---->
 {% endblock breadcrumbs %}
 <!---->
-{% block title %}Test detail{% endblock title %}
+{% block title %}Перегляд тесту{% endblock title %}
 
 <!-- Content start -->
 {% block dashboard_content%}
@@ -21,7 +21,7 @@
   <div class="col-lg-7 col-md-12">
     <div class="card">
       <div class="card-header">
-        <h6>Test detail</h6>
+        <h6>Текст тесту</h6>
       </div>
       <div class="card-body">
         <div class="mb-3">
@@ -32,24 +32,23 @@
             col="20"
             disabled
           >
-            {{ test.test_response.content }}
-  
+          {{ test.test_response.content }}
         </textarea
           >
         </div>
       </div>
-      <div class="card-footer">
+      <!-- <div class="card-footer">
         <a href="" class="btn btn-light-primary">
           Solve
           <i class="ti ti-arrow-right"></i>
         </a>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="col-lg-5 col-md-12">
     <div class="card">
       <div class="card-header">
-        <h6>Test work</h6>
+        <h6>Блок відповідей</h6>
       </div>
       <div class="card-body">
         <form action="#" method="POST">
@@ -87,7 +86,7 @@
             <div class="row">
               <div class="mb-3 col-6">
                 <label for="id_number_of_question_{{ forloop.counter }}" class="form-label"
-                  >Enter number of question</label
+                  >Номер запитання</label
                 >
                 <input
                   class="form-control"
@@ -96,11 +95,12 @@
                   min="0"
                   id="id_number_of_question_{{ forloop.counter }}"
                   required
+                  value="{{ forloop.counter }}"
                 />
               </div>
               <div class="mb-3 col-6">
                 <label for="id_user_choose_{{ forloop.counter }}" class="form-label"
-                  >Choose correct letter</label
+                  >Виберіть правильну букву</label
                 >
                 <input
                   class="form-control"
@@ -115,7 +115,7 @@
             {% endfor %}
           </div>
           <div class="card-footer">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">Надіслати</button>
           </div>
         </form>
       </div>

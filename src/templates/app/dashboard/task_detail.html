@@ -9,16 +9,16 @@
 <!-- Turn off auth notifications -->
 {% block breadcrumbs %}
 <li class="breadcrumb-item">
-  <a href="{% url 'new-tasks' %}">New tasks</a>
+  <a href="{% url 'new-tasks' %}">Нові завдання</a>
 </li>
 <!--Breadcrumbs-->
-{% block current_page %}Task view{% endblock current_page %}
+{% block current_page %}Перегляд завдання{% endblock current_page %}
 <!--Breadcrumbs-->
 {% endblock breadcrumbs %}
 
 <!--Title-->
 
-{% block title %}Task view{% endblock title %}
+{% block title %}Перегляд завдання{% endblock title %}
 
 <!--Dashboard main-->
 {% block dashboard_content%}
@@ -39,14 +39,14 @@
       <div class="card-header">
         <h5>
           <i data-feather="check-circle" class="me-1"></i>
-          Press checkbox if you solved task
+          Поставте прапорець, якщо ви розв'язали завдання.
         </h5>
       </div>
       <div class="card-body">
         {% if task.is_completed %}
         <div class="alert alert-success">
           <i data-feather="check-circle" class="me-2"></i>
-          Task has been solved.
+          Завдання розв'язно.
         </div>
         {% else %}
         <form action="#" method="POST" enctype="multipart/form-data">
@@ -67,11 +67,11 @@
                       <strong class="float-end">
                         <span class="badge bg-light-success"> Get it </span>
                       </strong>
-                      Solved task
+                      Розв'язати завдання
                     </span>
                     <span class="f-12 text-muted">
-                      If you press this checkbox<br />
-                      Your task will be solved and saved in database
+                      Якщо ви натиснете цей прапорець<br />
+                      Ваше завдання буде вирішено та збережено в базі даних.
                     </span>
                   </span>
                 </label>
@@ -80,7 +80,7 @@
             <div class="input-group">
               <label class="input-group-text" for="id_image">
                 <i data-feather="upload-cloud" class="me-2"></i>
-                Upload
+                Завантажити зображення
               </label>
 
               <input
@@ -90,10 +90,10 @@
                 class="form-control"
               />
             </div>
-            <small>Your can attach image with solving task.</small>
+            <small>Ви можете прикріпити зображення до завдання.</small>
           </div>
           <button type="submit" class="btn btn-primary mt-4">
-            Submit
+            Надіслати
             <i data-feather="check-circle"></i>
           </button>
         </form>
@@ -106,15 +106,16 @@
       <div class="card-header">
         <h5>
           <i data-feather="help-circle" class="me-1"></i>
-          Need help?
+          Потрібна допомога?
         </h5>
       </div>
       <div class="card-body">
         <p>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita,
-          iure officia. Cumque porro, suscipit dignissimos vel, reprehenderit
-          repellat dolor maxime et numquam unde, eos consequuntur labore. Iste
-          assumenda expedita neque!
+          Наш інструмент зі штучним інтелектом створений для того, щоб допомогти
+          тобі краще зрозуміти матеріал та впоратися із завданнями. Ось як це
+          працює:
+          <p><b>Штучний інтелект надасть тобі покрокове пояснення або підказки для вирішення задачі.</b></p>
+          <small>Пам'ятай, що головна мета — твоє навчання, тому завжди старайся зрозуміти матеріал, а не просто отримати відповідь. Успіхів у навчанні!</small>
         </p>
       </div>
     </div>
@@ -122,30 +123,38 @@
       <div class="card-header">
         <h5>
           <i data-feather="heart" class="me-1"></i>
-          AI helping
+          AI допомога
         </h5>
       </div>
       <div class="card-body">
         <p>
           <a
             href="{% url 'get-help-formula' task.id %}"
-            class="btn btn-success"
+            class="btn btn-success {% if task.is_completed %}disabled{% else %}{% endif %}"
             id="btn-response"
           >
-            Help me
+            Допомогти з формулою
             <i data-feather="aperture"></i>
           </a>
         </p>
         <p>
           <a
             href="{% url 'get-help-answer' task.id %}"
-            class="btn btn-success"
+            class="btn btn-success {% if task.is_completed %}disabled{% else %}{% endif %}"
             id="btn-response"
           >
-            Help me
+            Допомогти з задачою
             <i data-feather="aperture"></i>
           </a>
         </p>
+        <p>
+          <a href="{% url 'get-help-stucture' task.id %}"
+          class="btn btn-success {% if task.is_completed %}disabled{% else %}{% endif %}"
+          id="btn-response">
+          Допомогти з структурою
+          <i data-feather="aperture"></i>
+        </a>
+      </p>
       </div>
     </div>
   </div>

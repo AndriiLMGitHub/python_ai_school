@@ -68,7 +68,8 @@ class TestWorkResultAdmin(admin.ModelAdmin):
 
 @admin.register(AnswerTest)
 class AnswerTestAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'test', 'score', 'is_done')
+    list_filter = ('user', 'test', 'score', 'test', 'is_done',)
 
 
 admin.site.register(Task, TaskAdmin)

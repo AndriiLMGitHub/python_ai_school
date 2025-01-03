@@ -63,9 +63,9 @@
             </div>
           </div>
           <div class="saprator my-3">
-            <span>OR</span>
+            <span>Чи</span>
           </div>
-          <h4 class="text-center f-w-500 mb-3">Login with your email</h4>
+          <h4 class="text-center f-w-500 mb-3">Увійдіть за допомогою Email.</h4>
           <form action="#" method="POST">
             {% csrf_token %}
             <div class="form-group mb-3">
@@ -98,20 +98,20 @@
                   checked=""
                 />
                 <label class="form-check-label text-muted" for="customCheckc1"
-                  >Remember me?</label
+                  >Зам'ятати мене?</label
                 >
               </div>
               <h6 class="text-secondary f-w-400 mb-0">
-                <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                <a href="{% url 'password_reset' %}">Забули пароль?</a>
               </h6>
             </div>
             <div class="d-grid mt-4">
-              <button type="submit" class="btn btn-primary">Login</button>
+              <button type="submit" class="btn btn-primary">Увійти</button>
             </div>
             <div class="d-flex justify-content-between align-items-end mt-4">
-              <h6 class="f-w-500 mb-0">Don't have an Account?</h6>
+              <h6 class="f-w-500 mb-0">Не маєте облікового запису?</h6>
               <a href="{% url 'signup' %}" class="link-primary"
-                >Create Account</a
+                >Створити акаунт</a
               >
             </div>
           </form>

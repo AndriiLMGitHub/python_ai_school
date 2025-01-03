@@ -9,7 +9,7 @@ from django.views.decorators.cache import never_cache
 from django.utils import timezone
 from django.db.models import Q
 from .utils import get_team_members
-from .g4f import get_g4f_answer, get_g4f_formula
+from .g4f import get_g4f_answer, get_g4f_formula, get_g4f_stucture
 from g4f.client import Client
 
 # Create your views here.
@@ -59,31 +59,38 @@ def get_all_tasks_view(request):
 
     # Filter tasks based on the selected filter option (today, week, month)
     if filter_option == 'today':
-        tasks = Task.objects.all().filter(
+        tasks = Task.objects.filter(
             Q(created_at__date=today) | Q(team__members=request.user) | Q(users=request.user))
-        messages.success(request, 'Showing tasks created today')
+        messages.success(request, 'Показано завдання, створені сьогодні.')
     elif filter_option == 'week':
         start_of_week = today - timezone.timedelta(days=today.weekday())
-        tasks = Task.objects.all().filter(
+        tasks = Task.objects.filter(
             Q(created_at__date__gte=start_of_week) | Q(team__members=request.user) | Q(users=request.user))
-        messages.success(request, 'Showing tasks created in the last week')
+        messages.success(
+            request, 'Показано завдання, створені за останній тиждень.')
     elif filter_option == 'month':
-        tasks = Task.objects.all().filter(
+        tasks = Task.objects.filter(
             Q(created_at__year=today.year) | Q(created_at__month=today.month) | Q(team__members=request.user) | Q(users=request.user))
-        messages.info(request, 'Showing tasks created in the last month')
+        messages.info(
+            request, 'Показано завдання, створені за останній місяць.')
     elif filter_option == 'all':
         tasks = Task.objects.filter(
             Q(users=request.user) | Q(team__members=request.user))
-        messages.info(request, 'Showing all tasks')
+        messages.info(request, 'Показані всі завдання.')
     else:
         tasks = Task.objects.none()
-        messages.warning(request, 'Invalid filter option')
+        messages.warning(request, 'Недійсний параметр фільтра.')
 
-    return render(request, 'app/dashboard/all_tasks.html', {'tasks': tasks, 'filter_option': filter_option})
+    return render(request, 'app/dashboard/all_tasks.html', {
+        'tasks': tasks,
+        'filter_option': filter_option,
+        'all_tasks': all_tasks
+    })
 
 
 def new_tasks_view(request):
-    tasks = Task.objects.all().filter(users=request.user)
+    tasks = Task.objects.filter(
+        Q(users=request.user) | Q(team__members=request.user))
     tasks_undone = tasks.filter(is_completed=False)
     return render(request, 'app/dashboard/new_tasks.html', {'tasks': tasks, 'tasks_undone': tasks_undone})
 
@@ -96,10 +103,10 @@ def task_detail_view(request, task_id):
         if form.is_valid():
             form.is_completed = True
             form.save()
-            messages.success(request, 'Task marked as complete')
+            messages.success(request, 'Завдання позначено як виконане.')
             return redirect('new-tasks')
         else:
-            messages.error(request, 'Error updating task')
+            messages.error(request, 'Помилка оновлення завдання.')
 
     return render(request, 'app/dashboard/task_detail.html', {'task': task, 'form': form})
 
@@ -119,6 +126,15 @@ def get_help_answer_view(request, task_id):
     result = get_g4f_answer(task.description)
     return render(request, 'app/dashboard/get_help.html', {'response': result, 'task': task})
 
+# @never_cache
+# @sync_to_async
+
+
+def get_help_structure_view(request, task_id):
+    task = Task.objects.get(pk=task_id)
+    result = get_g4f_stucture(task.description)
+    return render(request, 'app/dashboard/get_help.html', {'response': result, 'task': task})
+
 
 # Team with Mememrs for team Views
 def teams_view(request):
@@ -136,11 +152,11 @@ def team_detail_view(request, team_id):
     if request.method == 'POST':
         user = request.user
         if (user in team_members):
-            messages.error(request, 'You are already a member of this team')
+            messages.error(request, 'Ви вже є членом цієї команди.')
             return redirect('team-detail', team_id=team_id)
         else:
             team.members.add(user)
-            messages.success(request, 'You have joined the team successfully')
+            messages.success(request, 'Ви успішно приєдналися до команди.')
             return redirect('team-detail', team_id=team_id)
     return render(request, 'app/dashboard/team_detail.html', {'team': team, 'team_members': team_members})
 
@@ -150,10 +166,10 @@ def create_team_view(request):
         form = TeamForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Team created successfully')
+            messages.success(request, 'Команда створена успішно.')
             return redirect('teams')
         else:
-            messages.error(request, 'Error creating team')
+            messages.error(request, 'Помилка створення команди.')
     else:
         form = TeamForm()
     return render(request, 'app/dashboard/create_team.html', {'form': form})
@@ -181,10 +197,10 @@ def create_test_view(request):
                 test_work=form.instance,
                 content=result,
             )
-            messages.success(request, 'Test created successfully')
+            messages.success(request, 'Тест успішно створено.')
             return render(request, 'app/tests/create_test.html', {'result': result})
         else:
-            messages.error(request, 'Error creating test')
+            messages.error(request, 'Помилка створення тесту.')
     else:
         form = TestWorkForm()
     return render(request, 'app/tests/create_test.html', {'form': form, 'result': result})
@@ -221,23 +237,24 @@ def list_test_view(request):
     if filter_option == 'today':
         tests = TestForUser.objects.filter(
             created_at__date=today, users=request.user)
-        messages.success(request, 'Showing tests created today')
+        messages.success(request, 'Показано тести, створені сьогодні.')
     elif filter_option == 'week':
         start_of_week = today - \
             timezone.timedelta(days=today.weekday())
         tests = TestForUser.objects.filter(
             created_at__date__gte=start_of_week, users=request.user)
-        messages.success(request, 'Showing tests created in the last week')
+        messages.success(
+            request, 'Показано тести, створені за останній тиждень.')
     elif filter_option == 'month':
         tests = TestForUser.objects.filter(
             created_at__year=today.year, created_at__month=today.month, users=request.user)
-        messages.info(request, 'Showing tests created in the last month')
+        messages.info(request, 'Показано тести, створені за останній місяць.')
     elif filter_option == 'all':
         tests = TestForUser.objects.all().filter(users=request.user)
-        messages.info(request, 'Showing all tests')
+        messages.info(request, 'Показані всі тести.')
     else:
         tests = TestForUser.objects.none()
-        messages.warning(request, 'Invalid filter option')
+        messages.warning(request, 'Недійсний параметр фільтра.')
 
     # Render the test list template with the filtered tasks
 
@@ -257,7 +274,7 @@ def test_detail_view(request, test_id):
                 # Сохраняем как "вопрос: ответ"
                 answers[number_of_question] = user_choose
             else:
-                messages.error(request, 'Error answering question')
+                messages.error(request, 'Помилка відповіді на запитання.')
                 break
         AnswerTest.objects.create(
             user=request.user,
@@ -265,7 +282,7 @@ def test_detail_view(request, test_id):
             answers=answers,
             is_done=True,
         )
-        messages.success(request, 'Question answered successfully')
+        messages.success(request, 'Відповіли на запитання успішно.')
         return redirect('test-detail', test.id)
     return render(request, 'app/tests/test_detail.html', {
         'test': test,
@@ -274,18 +291,6 @@ def test_detail_view(request, test_id):
     })
 
 
-# def test_listtt(request):
-#     tests_all = []
-#     test_users = []
-#     tests = TestForUser.objects.prefetch_related('users')
-#     for test in tests:
-#         tests_all.append(test)
-#         for user in test.users.all():
-#             test_users.append(user)
-
-#     context = {
-#         'tests_all': tests_all,
-#         'test_users': test_users
-#     }
-
-#     return render(request, 'app/tests/test_listtt.html', context)
+def assessments_view(request):
+    context = {}
+    return render(request, 'app/dashboard/assessments.html', context)

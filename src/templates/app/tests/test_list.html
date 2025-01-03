@@ -9,11 +9,11 @@
 
 {% block breadcrumbs %}
 <!---->
-{% block current_page %}Tests{% endblock current_page %}
+{% block current_page %}Тести{% endblock current_page %}
 <!---->
 {% endblock breadcrumbs %}
 <!---->
-{% block title %}Tests{% endblock title %}
+{% block title %}Тести{% endblock title %}
 
 <!-- Content start -->
 {% block dashboard_content%}
@@ -21,18 +21,18 @@
   <div class="col-lg-12">
     <div class="card">
       <div class="card-header">
-        <h6>List test</h6>
+        <h6>Список всіх тестів</h6>
       </div>
         {% if request.user.is_superuser %} {% else %} {% endif %}
         <div class="card-body">
           <div class="d-flex align-items-center justify-content-between mb-3">
-            <h5 class="mb-0">Filter</h5>
+            <h5 class="mb-0">Фільтр</h5>
             <form action="#" method="GET">
               <select class="form-select w-auto" name="filter" onchange="this.form.submit()">
-                  <option value="today" {% if filter_option == 'today' %}selected{% endif %}>Today</option>
-                  <option value="week" {% if filter_option == 'week' %}selected{% endif %}>Weekly</option>
-                  <option value="month" {% if filter_option == 'month' %}selected{% endif %}>Monthly</option>
-                  <option value="all" {% if filter_option == 'all' %}selected{% endif %}selected>All</option>
+                  <option value="today" {% if filter_option == 'today' %}selected{% endif %}>Сьогодні</option>
+                  <option value="week" {% if filter_option == 'week' %}selected{% endif %}>За тиждень</option>
+                  <option value="month" {% if filter_option == 'month' %}selected{% endif %}>За місяць</option>
+                  <option value="all" {% if filter_option == 'all' %}selected{% endif %}selected>Всі</option>
                 </select>
             </form>
           </div>
@@ -47,12 +47,13 @@
                 >
                   <thead>
                     <tr>
-                      <th>NAME</th>
-                      <th>STATUS</th>
-                      <th>CREATED</th>
+                      <th>Ім'я</th>
+                      <th>Статус</th>
+                      <th>Створений</th>
                     </tr>
                   </thead>
                   <tbody>
+                    {% if tests %}
                     {% for test in tests %}
                     <a href="#">
                       <tr data-index="{{ test.id}}">
@@ -82,7 +83,7 @@
                           </div>
                         </td>
                         <td>
-                          {% if test%}
+                          {% if test %}
                           <span class="badge bg-success">Виконаний</span>
                           {% else %}
                           <span class="badge bg-danger">Невиконаний</span>
@@ -95,13 +96,18 @@
                     </a>
 
                     {% endfor %}
+                    {% else %}
+                    <tr>
+                      <td colspan="3">Немає доступних тестів.</td>
+                    </tr>
+                    {% endif %}
                   </tbody>
                 </table>
               </div>
               <nav aria-label="...">
                 <ul class="pagination">
                   <li class="page-item disabled">
-                    <span class="page-link">Previous</span>
+                    <span class="page-link">Попередня</span>
                   </li>
                   <li class="page-item">
                     <a class="page-link" href="#!">1</a>
@@ -109,14 +115,14 @@
                   <li class="page-item active">
                     <span class="page-link">
                       2
-                      <span class="sr-only"> (current) </span>
+                      <span class="sr-only"> (поточна) </span>
                     </span>
                   </li>
                   <li class="page-item">
                     <a class="page-link" href="#!">3</a>
                   </li>
                   <li class="page-item">
-                    <a class="page-link" href="#!">Next</a>
+                    <a class="page-link" href="#!">Наступна</a>
                   </li>
                 </ul>
               </nav>

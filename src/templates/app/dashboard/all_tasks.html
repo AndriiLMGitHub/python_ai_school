@@ -7,7 +7,7 @@
 {% block auth_messages %}{% endblock auth_messages %}
 
 <!-- Turn off auth notifications -->
-{% block title %}All tasks{% endblock title %}
+{% block title %}Всі завдання{% endblock title %}
 
 {% block dashboard_content%}
 <div class="row">
@@ -15,13 +15,13 @@
     <div class="card">
       <div class="card-body">
         <div class="d-flex align-items-center justify-content-between mb-3">
-          <h5 class="mb-0">Tasks</h5>
+          <h5 class="mb-0">Завдання</h5>
           <form action="#" method="GET">
             <select class="form-select w-auto" name="filter" onchange="this.form.submit()">
-                <option value="today" {% if filter_option == 'today' %}selected{% endif %}>Today</option>
-                <option value="week" {% if filter_option == 'week' %}selected{% endif %}>Weekly</option>
-                <option value="month" {% if filter_option == 'month' %}selected{% endif %}>Monthly</option>
-                <option value="all" {% if filter_option == 'all' %}selected{% endif %}>All</option>
+                <option value="today" {% if filter_option == 'today' %}selected{% endif %}>Сьогодні</option>
+                <option value="week" {% if filter_option == 'week' %}selected{% endif %}>За тиждень</option>
+                <option value="month" {% if filter_option == 'month' %}selected{% endif %}>За місяць</option>
+                <option value="all" {% if filter_option == 'all' %}selected{% endif %}>Всі</option>
               </select>
           </form>
         </div>
@@ -36,14 +36,14 @@
               >
                 <thead>
                   <tr>
-                    <th>NAME</th>
-                    <th>STATUS</th>
-                    <th>CREATED</th>
-                    <th>UPDATED</th>
+                    <th>Імя</th>
+                    <th>Статус</th>
+                    <th>Створений</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for task in tasks %}
+                  {% if all_tasks %}
+                  {% for task in all_tasks %}
                   <tr data-index="{{ task.id}}">
                     <td>
                       <div class="row align-items-center">
@@ -70,24 +70,28 @@
                     </td>
                     <td>
                       {% if task.is_completed %}
-                      <span class="badge bg-success">Done</span>
+                      <span class="badge bg-success">Виконаний</span>
                       {% else %}
-                      <span class="badge bg-danger">Undone</span>
+                      <span class="badge bg-danger">Невиконаний</span>
                       {% endif %}
                     </td>
                     <td class="f-w-600">
                       {{ task.created_at|date:"D d M Y" }}
                     </td>
-                    <td class="f-w-600">{{task.updated_at|date:"D d M Y"}}</td>
                   </tr>
                   {% endfor %}
+                  {% else %}
+                    <tr>
+                      <td colspan="4">Немає завдань</td>
+                    </tr>
+                  {% endif %}
                 </tbody>
               </table>
             </div>
             <nav aria-label="...">
               <ul class="pagination">
                 <li class="page-item disabled">
-                  <span class="page-link">Previous</span>
+                  <span class="page-link">Попередні</span>
                 </li>
                 <li class="page-item">
                   <a class="page-link" href="#!">1</a>
@@ -95,14 +99,14 @@
                 <li class="page-item active">
                   <span class="page-link">
                     2
-                    <span class="sr-only"> (current) </span>
+                    <span class="sr-only"> (поточна) </span>
                   </span>
                 </li>
                 <li class="page-item">
                   <a class="page-link" href="#!">3</a>
                 </li>
                 <li class="page-item">
-                  <a class="page-link" href="#!">Next</a>
+                  <a class="page-link" href="#!">Наступна</a>
                 </li>
               </ul>
             </nav>

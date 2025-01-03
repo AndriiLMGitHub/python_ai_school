@@ -9,7 +9,7 @@
 
 {% block breadcrumbs %}
 <!---->
-{% block current_page %}Team view{% endblock current_page %}
+{% block current_page %}Командна{% endblock current_page %}
 <!---->
 {% endblock breadcrumbs %}
 
@@ -22,7 +22,7 @@
   <div class="card">
     <div class="card-body pb-0">
       <div class="d-flex align-items-center justify-content-between">
-        <h5 class="mb-0">Team members</h5>
+        <h5 class="mb-0">Члени команди</h5>
         <div class="dropdown">
           <a
             class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
@@ -32,11 +32,11 @@
             aria-expanded="false"
             ><i class="ti ti-dots-vertical f-18"></i
           ></a>
-          <div class="dropdown-menu dropdown-menu-end">
+          <!-- <div class="dropdown-menu dropdown-menu-end">
             <a class="dropdown-item" href="#">Today</a>
             <a class="dropdown-item" href="#">Weekly</a>
             <a class="dropdown-item" href="#">Monthly</a>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -80,7 +80,7 @@
           <div class="flex-grow-1 mx-2">
             <p class="mb-1">
               <i data-feather="user-x" class="me-2"></i>
-              No members yet
+              Ще немає учасників
             </p>
           </div>
         </div>
@@ -93,7 +93,7 @@
         <button
           class="btn btn-success d-flex align-items-center justify-content-center gap-2 {% for team_member in team_members %} {% if request.user.email == team_member.user.email %}disabled{% endif %} {% endfor %}"
         >
-          Join team
+          Приєднуйтесь до команди
           <i class="ti ti-plus"></i>
         </button>
       </form>
