@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect
 from social_django.models import UserSocialAuth
 from django.contrib.auth.decorators import login_required
 from .models import Task, Team, TestWorkResponse, TestForUser, AnswerTest
-from asgiref.sync import sync_to_async
+# from asgiref.sync import sync_to_async
+# from django.views.decorators.cache import never_cache
 from .forms import TaskForm, TeamForm, TestWorkForm, AnswerTestForm
 from django.contrib import messages
-from django.views.decorators.cache import never_cache
 from django.utils import timezone
 from django.db.models import Q
 from .utils import get_team_members
@@ -111,27 +111,23 @@ def task_detail_view(request, task_id):
     return render(request, 'app/dashboard/task_detail.html', {'task': task, 'form': form})
 
 
-@never_cache
-@sync_to_async
 def get_help_formula_view(request, task_id):
     task = Task.objects.get(pk=task_id)
     result = get_g4f_formula(task.description)
     return render(request, 'app/dashboard/get_help.html', {'response': result, 'task': task})
 
 
-@never_cache
-@sync_to_async
 def get_help_answer_view(request, task_id):
     task = Task.objects.get(pk=task_id)
     result = get_g4f_answer(task.description)
     return render(request, 'app/dashboard/get_help.html', {'response': result, 'task': task})
 
 
-@never_cache
-@sync_to_async
 def get_help_structure_view(request, task_id):
+    # Оскільки get_g4f_stucture вже асинхронна, ми можемо викликати її з await
+    # Синхронний виклик Task.objects.get
     task = Task.objects.get(pk=task_id)
-    result = get_g4f_stucture(task.description)
+    result = get_g4f_stucture(task.description)  # Ваш асинхронний виклик
     return render(request, 'app/dashboard/get_help.html', {'response': result, 'task': task})
 
 
