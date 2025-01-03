@@ -16,7 +16,7 @@ Help me
 {% block title %}Допомога AI{% endblock title %}
 
 <!---->
-{% block dashboard_content%}
+{% block dashboard_content %}
 <div class="row">
   <!-- [ sample-page ] start -->
   <div class="col-sm-12">
@@ -25,7 +25,14 @@ Help me
         <h5>Розв'язання</h5>
       </div>
       <div class="card-body">
-        <p class="lead text-center">{{ response }}</p>
+        <p class="lead text-center">
+          {% if response != '' %}{{ response }}
+          {% else %}
+          <p class="lead text-danger-400">
+            Сервер не відповідає на питання. Спробуйте ще раз.
+          </p>
+          {% endif %}
+        </p>
         <p class="text-center">
           <a
             href="{% url 'get-help-formula' task.id %}"
