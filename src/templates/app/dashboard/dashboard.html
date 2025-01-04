@@ -322,7 +322,7 @@
             </svg>
           </a>
           <div
-            class="dropdown-menu dropdown-menu-end pc-h-dropdown"
+            class="dropdown-menu dropdown-menu-end pc-h-dropdown theme-layout"
             data-popper-placement="bottom-end"
           >
             <a href="#!" class="dropdown-item" onclick="layout_change('dark')">
@@ -349,7 +349,7 @@
             </a>
           </div>
         </li>
-        <li class="dropdown pc-h-item">
+        <!-- <li class="dropdown pc-h-item">
           <a
             class="pc-head-link dropdown-toggle arrow-none me-0 show"
             data-bs-toggle="dropdown"
@@ -378,72 +378,16 @@
               <i class="ti ti-headset"></i>
               <span>Допомога</span>
             </a>
-            <!-- <a href="#!" class="dropdown-item">
+            <a href="#!" class="dropdown-item">
               <i class="ti ti-lock"></i>
               <span>Lock Screen</span>
-            </a> -->
+            </a>
             <a href="#!" class="dropdown-item">
               <i class="ti ti-power"></i>
               <span>Вийти</span>
             </a>
           </div>
-        </li>
-        <!-- <li class="dropdown pc-h-item">
-          <a
-            class="pc-head-link dropdown-toggle arrow-none me-0"
-            data-bs-toggle="dropdown"
-            href="#"
-            role="button"
-            aria-haspopup="false"
-            aria-expanded="false"
-          >
-            <svg class="pc-icon">
-              <use xlink:href="#custom-notification"></use>
-            </svg>
-            <span class="badge bg-success pc-h-badge">1</span>
-          </a>
-          <div
-            class="dropdown-menu dropdown-notification dropdown-menu-end pc-h-dropdown"
-          >
-            <div
-              class="dropdown-header d-flex align-items-center justify-content-between"
-            >
-              <h5 class="m-0">Notifications</h5>
-              <a href="#!" class="btn btn-link btn-sm">Mark all read</a>
-            </div>
-            <div
-              class="dropdown-body text-wrap header-notification-scroll position-relative"
-              style="max-height: calc(100vh - 215px)"
-            >
-              <p class="text-span">Today</p>
-              <div class="card mb-2">
-                <div class="card-body">
-                  <div class="d-flex">
-                    <div class="flex-shrink-0">
-                      <svg class="pc-icon text-primary">
-                        <use xlink:href="#custom-document-text"></use>
-                      </svg>
-                    </div>
-                    <div class="flex-grow-1 ms-3">
-                      <span class="float-end text-sm text-muted"
-                        >2 hour ago</span
-                      >
-                      <h5 class="text-body mb-2">Forms</h5>
-                      <p class="mb-0">
-                        Lorem Ipsum has been the industry's standard dummy text
-                        ever since the 1500s, when an unknown printer took a
-                        galley of type and scrambled it to make a type
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="text-center py-2">
-              <a href="#!" class="link-danger">Clear all Notifications</a>
-            </div>
-          </div>
-        </li> -->
+        </li>  -->
         <li class="dropdown pc-h-item header-user-profile">
           <a
             class="pc-head-link dropdown-toggle arrow-none me-0"
@@ -491,29 +435,6 @@
                   </div>
                 </div>
                 <hr class="border-secondary border-opacity-50" />
-                <!-- <div class="card">
-                  <div class="card-body py-3">
-                    <div
-                      class="d-flex align-items-center justify-content-between"
-                    >
-                      <h5 class="mb-0 d-inline-flex align-items-center">
-                        <svg class="pc-icon text-muted me-2">
-                          <use xlink:href="#custom-notification-outline"></use>
-                        </svg>
-                        Notification
-                      </h5>
-                      <div
-                        class="form-check form-switch form-check-reverse m-0"
-                      >
-                        <input
-                          class="form-check-input f-18"
-                          type="checkbox"
-                          role="switch"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
                 <p class="text-span">Manage</p>
                 <a href="#" class="dropdown-item">
                   <span>
@@ -523,14 +444,6 @@
                     <span>Налаштування</span>
                   </span>
                 </a>
-                <!-- <a href="#" class="dropdown-item">
-                  <span>
-                    <svg class="pc-icon text-muted me-2">
-                      <use xlink:href="#custom-share-bold"></use>
-                    </svg>
-                    <span>Share</span>
-                  </span>
-                </a> -->
                 <a href="{% url 'password_change' %}" class="dropdown-item">
                   <span>
                     <svg class="pc-icon text-muted me-2">
@@ -594,49 +507,7 @@
                   style="
                     background-image: url(static/assets/images/layout/img-profile-card.jpg);
                   "
-                >
-                  <!-- <div class="card-body">
-                    <div class="user-group">
-                      <img
-                        src="{% static 'assets/images/user/avatar-1.jpg' %}"
-                        alt="user-image"
-                        class="avtar"
-                      />
-                      <img
-                        src="{% static 'assets/images/user/avatar-2.jpg' %}"
-                        alt="user-image"
-                        class="avtar"
-                      />
-                      <img
-                        src="{% static 'assets/images/user/avatar-1.jpg' %}"
-                        alt="user-image"
-                        class="avtar"
-                      />
-                      <img
-                        src="{% static 'assets/images/user/avatar-1.jpg' %}"
-                        alt="user-image"
-                        class="avtar"
-                      />
-                      <img
-                        src="{% static 'assets/images/user/avatar-1.jpg' %}"
-                        alt="user-image"
-                        class="avtar"
-                      />
-                      <span class="avtar bg-light-primary text-primary"
-                        >+20</span
-                      >
-                    </div>
-                    <h3 class="my-3 text-dark">
-                      245.3k <small class="text-muted">Followers</small>
-                    </h3>
-                    <div class="btn btn btn-warning">
-                      <svg class="pc-icon me-2">
-                        <use xlink:href="#custom-logout-1-outline"></use>
-                      </svg>
-                      Upgrade to Business
-                    </div>
-                  </div> -->
-                </div>
+                ></div>
               </div>
             </div>
           </div>
@@ -685,6 +556,8 @@
       <div
         class="alert alert-{% if message.tags == 'error' %}danger{% else %}success{% endif %} alert-dismissible fade show"
         role="alert"
+        alert-dismissible
+        fade
       >
         <strong>
           {% if message.tags == 'error' %}
@@ -738,7 +611,7 @@
         <div class="card">
           <div class="card-body pb-0">
             <div class="d-flex align-items-center justify-content-between">
-              <h5 class="mb-0">Мої останні завдання</h5>
+              <h5 class="mb-0 text-muted">Мої останні завдання</h5>
               <div class="dropdown">
                 <a
                   class="avtar avtar-s btn-link-secondary dropdown-toggle arrow-none"
@@ -766,7 +639,7 @@
                 <div class="d-flex align-items-start">
                   <div class="flex-grow-1 me-2">
                     <h6 class="mb-0">{{ task.name }}</h6>
-                    <p class="my-2 text-gray-800">
+                    <p class="my-2 text-muted">
                       <!-- <i class="ti ti-archive"></i> -->
                       {{ task.description|truncatechars:100 }}
                     </p>

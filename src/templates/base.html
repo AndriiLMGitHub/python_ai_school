@@ -78,6 +78,8 @@
       <div
         class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show"
         role="alert"
+        alert-dismissible
+        fade
       >
         <strong>
           {% if message.tags == 'error' %}
@@ -129,21 +131,19 @@
 
     <!-- [Page Specific JS] start -->
     <!-- <script src="{% static 'assets/js/plugins/apexcharts.min.js' %}"></script> -->
-    <script src="{% static 'assets/js/pages/dashboard-default.js' %}"></script>
+    <!-- <script src="{% static 'assets/js/pages/dashboard-default.js' %}"></script> -->
+
     <!-- [Page Specific JS] end -->
 
     <!-- Required Js -->
     <script src="{% static 'assets/js/pcoded.js' %}"></script>
+    <script src="{% static 'assets/js/theme.js' %}"></script>
     <script src="{% static 'assets/js/plugins/popper.min.js' %}"></script>
     <script src="{% static 'assets/js/plugins/simplebar.min.js' %}"></script>
     <script src="{% static 'assets/js/plugins/bootstrap.min.js' %}"></script>
     <script src="{% static 'assets/js/fonts/custom-font.js' %}"></script>
     <script src="{% static 'assets/js/plugins/feather.min.js' %}"></script>
     <script src="{% static 'assets/js/app.js' %}"></script>
-
-    <script>
-      layout_change("light");
-    </script>
 
     <script>
       layout_theme_contrast_change("false");
