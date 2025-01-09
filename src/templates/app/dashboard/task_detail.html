@@ -127,26 +127,6 @@
       </div>
       <div class="card-body">
         <p>
-          <a
-            href="{% url 'get-help-formula' task.id %}"
-            class="btn btn-success {% if task.is_completed %}disabled{% else %}{% endif %}"
-            id="btn-response"
-          >
-            Допомогти з формулою
-            <i data-feather="aperture"></i>
-          </a>
-        </p>
-        <p>
-          <a
-            href="{% url 'get-help-answer' task.id %}"
-            class="btn btn-success {% if task.is_completed %}disabled{% else %}{% endif %}"
-            id="btn-response"
-          >
-            Допомогти з задачою
-            <i data-feather="aperture"></i>
-          </a>
-        </p>
-        <p>
           <a href="{% url 'get-help-stucture' task.id %}"
           class="btn btn-success {% if task.is_completed %}disabled{% else %}{% endif %}"
           id="btn-response">
@@ -154,6 +134,31 @@
           <i data-feather="aperture"></i>
         </a>
       </p>
+        <p>
+          <a
+            href="{% url 'get-help-formula' task.id %}"
+            class="btn btn-warning {% if task.is_completed %}disabled{% else %}{% endif %}"
+            id="btn-response"
+          >
+            Допомогти з формулою
+            <i data-feather="aperture"></i>
+          </a>
+          
+        </p>
+        <p>
+          <a
+            href="{% url 'get-help-answer' task.id %}"
+            class="btn btn-warning {% if task.is_completed %}disabled{% else %}{% endif %}"
+            id="btn-response"
+          >
+            Допомогти з задачою
+            <i data-feather="aperture"></i>
+          </a>
+          <p>
+            <span class="badge rounded-pill text-bg-warning text-dark">Можуть працювати не коректно</span>
+            <small class="text-muted">Можуть працювати не коректно</small>
+          </p>
+        </p>
       </div>
     </div>
   </div>
