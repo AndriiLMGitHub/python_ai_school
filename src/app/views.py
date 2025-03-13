@@ -180,13 +180,14 @@ def create_test_view(request):
         if form.is_valid():
             topic = request.POST.get('topic')
             description = request.POST.get('description')
-            quantity = request.POST.get('quantity')
+            quantity = request.POST.get('quantity_questions')
             form_class = request.POST.get('form_class')
             difficulty = request.POST.get('difficulty')
             result = g4f_create_test(
                 topic=topic, difficulty=difficulty, form_class=form_class, description=description, quantity=str(
                     quantity)
             )
+            print(quantity)
             form.save()
             TestWorkResponse.objects.create(
                 test_work=form.instance,
@@ -278,7 +279,7 @@ def test_detail_view(request, test_id):
             is_done=True,
         )
         messages.success(request, 'Відповіли на запитання успішно.')
-        return redirect('test-detail', test.id)
+        return redirect('list-tests')
     return render(request, 'app/tests/test_detail.html', {
         'test': test,
         'static_range': range(test.test_response.count_questions),

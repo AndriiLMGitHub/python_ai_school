@@ -48,7 +48,7 @@
                   <thead>
                     <tr>
                       <th>Ім'я</th>
-                      <th>Статус</th>
+                      <!-- <th>Статус</th> -->
                       <th>Створений</th>
                     </tr>
                   </thead>
@@ -82,13 +82,14 @@
                             </div>
                           </div>
                         </td>
-                        <td>
+                        <!-- <td>
                           {% if test %}
+                          {{ test.test_response.test_work.answers }}
                           <span class="badge bg-success">Виконаний</span>
                           {% else %}
                           <span class="badge bg-danger">Невиконаний</span>
                           {% endif %}
-                        </td>
+                        </td> -->
                         <td class="f-w-600">
                           {{ test.created_at|date:"D d M Y" }}
                         </td>
