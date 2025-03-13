@@ -8,6 +8,8 @@ from django.views.static import serve
 
 handler404 = views.my_handler404
 
+handler500 = views.my_handler500
+
 urlpatterns = [
     # Admin route
     path('admin/', admin.site.urls),

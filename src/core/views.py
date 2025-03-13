@@ -9,3 +9,7 @@ def start_view(request, *args, **kwargs):
 
 def my_handler404(request, exception):
     return render(request, 'app/404.html')
+
+
+def my_handler500(request):
+    return render(request, 'app/500.html')

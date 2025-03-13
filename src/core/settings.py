@@ -18,7 +18,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    '127.0.0.1', 'localhost', "*",
+    '127.0.0.1', 
+    'localhost',
+    "*",
+    'andreycreatorwebapp.pythonanywhere.com',
 ]
 
 AUTH_USER_MODEL = "account.CustomUser"
