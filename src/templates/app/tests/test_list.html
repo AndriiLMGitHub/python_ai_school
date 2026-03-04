@@ -23,66 +23,119 @@
       <div class="card-header">
         <h6>Список всіх тестів</h6>
       </div>
-        {% if request.user.is_superuser %} {% else %} {% endif %}
-        <div class="card-body">
-          <div class="d-flex align-items-center justify-content-between mb-3">
-            <h5 class="mb-0">Фільтр</h5>
-            <form action="#" method="GET">
-              <select class="form-select w-auto" name="filter" onchange="this.form.submit()">
-                  <option value="today" {% if filter_option == 'today' %}selected{% endif %}>Сьогодні</option>
-                  <option value="week" {% if filter_option == 'week' %}selected{% endif %}>За тиждень</option>
-                  <option value="month" {% if filter_option == 'month' %}selected{% endif %}>За місяць</option>
-                  <option value="all" {% if filter_option == 'all' %}selected{% endif %}selected>Всі</option>
-                </select>
-            </form>
-          </div>
-          <div class="table-responsive">
-            <div
-              class="datatable-wrapper datatable-loading no-footer searchable fixed-columns"
+      {% if request.user.is_superuser %} {% else %} {% endif %}
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0">Фільтр</h5>
+          <form action="#" method="GET">
+            <select
+              class="form-select w-auto"
+              name="filter"
+              onchange="this.form.submit()"
             >
-              <div class="datatable-container">
-                <table
-                  class="table table-hover datatable-table"
-                  id="pc-dt-simple"
-                >
-                  <thead>
-                    <tr>
-                      <th>Ім'я</th>
-                      <!-- <th>Статус</th> -->
-                      <th>Створений</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% if tests %}
-                    {% for test in tests %}
-                    <a href="#">
-                      <tr data-index="{{ test.id}}">
-                        <td>
-                          <div class="row align-items-center">
-                            <div class="col-auto pe-0">
-                              <img
-                                src="{% static 'assets/images/widget/img-prod-1.jpg' %}"
-                                alt="user-image"
-                                class="wid-55 hei-55 rounded"
-                              />
-                            </div>
-                            <div class="col">
-                              <a href="{% url 'test-detail' test.id %}">
-                                <h6 class="mb-2">
-                                  <span class="text-truncate w-100">
-                                    <a href="{% url 'test-detail' test.id %}">{{ test.test_response.test_work.title }}</a>
-                                  </span>
-                                </h6>
-                              </a>
-                              <p class="text-muted f-12 mb-0">
-                                <span class="text-truncate w-100">
-                                  {{ test.test_response.content|truncatechars:50 }}
-                                </span>
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <!-- <td>
+              <option
+                value="today"
+                {%
+                if
+                filter_option=""
+                ="today"
+                %}selected{%
+                endif
+                %}
+              >
+                Сьогодні
+              </option>
+              <option
+                value="week"
+                {%
+                if
+                filter_option=""
+                ="week"
+                %}selected{%
+                endif
+                %}
+              >
+                За тиждень
+              </option>
+              <option
+                value="month"
+                {%
+                if
+                filter_option=""
+                ="month"
+                %}selected{%
+                endif
+                %}
+              >
+                За місяць
+              </option>
+              <option
+                value="all"
+                {%
+                if
+                filter_option=""
+                ="all"
+                %}selected{%
+                endif
+                %}selected
+              >
+                Всі
+              </option>
+            </select>
+          </form>
+        </div>
+        <div class="table-responsive">
+          <div
+            class="datatable-wrapper datatable-loading no-footer searchable fixed-columns"
+          >
+            <div class="datatable-container">
+              <table
+                class="table table-hover datatable-table"
+                id="pc-dt-simple"
+              >
+                <thead>
+                  <tr>
+                    <th>Ім'я</th>
+                    <!-- <th>Статус</th> -->
+                    <th>Створений</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% if tests %} {% for test in tests %}
+                  <tr
+                    data-index="{{ test.id }}"
+                    data-url="{% url 'test-detail' test.id %}"
+                    class="clickable-row"
+                    style="cursor: pointer"
+                  >
+                    <td>
+                      <div class="row align-items-center">
+                        <div class="col-auto pe-0">
+                          <img
+                            src="{% static 'assets/images/widget/img-prod-1.jpg' %}"
+                            alt="user-image"
+                            class="wid-55 hei-55 rounded"
+                          />
+                        </div>
+                        <div class="col">
+                          <a href="{% url 'test-detail' test.id %}">
+                            <h6 class="mb-2">
+                              <span class="text-truncate w-100">
+                                <a href="{% url 'test-detail' test.id %}"
+                                  >{{ test.test_response.test_work.title }}</a
+                                >
+                              </span>
+                            </h6>
+                          </a>
+                          <p class="text-muted f-12 mb-0">
+                            <span class="text-truncate w-100">
+                              {{ test.test_response.content|truncatechars:50}}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+                    <!-- <td>
                           {% if test %}
                           {{ test.test_response.test_work.answers }}
                           <span class="badge bg-success">Виконаний</span>
@@ -90,48 +143,55 @@
                           <span class="badge bg-danger">Невиконаний</span>
                           {% endif %}
                         </td> -->
-                        <td class="f-w-600">
-                          {{ test.created_at|date:"D d M Y" }}
-                        </td>
-                      </tr>
-                    </a>
+                    <td class="f-w-600">
+                      {{ test.created_at|date:"D d M Y" }}
+                    </td>
+                  </tr>
 
-                    {% endfor %}
-                    {% else %}
-                    <tr>
-                      <td colspan="3">Немає доступних тестів.</td>
-                    </tr>
-                    {% endif %}
-                  </tbody>
-                </table>
-              </div>
-              <nav aria-label="...">
-                <ul class="pagination">
-                  <li class="page-item disabled">
-                    <span class="page-link">Попередня</span>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#!">1</a>
-                  </li>
-                  <li class="page-item active">
-                    <span class="page-link">
-                      2
-                      <span class="sr-only"> (поточна) </span>
-                    </span>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#!">3</a>
-                  </li>
-                  <li class="page-item">
-                    <a class="page-link" href="#!">Наступна</a>
-                  </li>
-                </ul>
-              </nav>
+                  {% endfor %} {% else %}
+                  <tr>
+                    <td colspan="3">Немає доступних тестів.</td>
+                  </tr>
+                  {% endif %}
+                </tbody>
+              </table>
             </div>
+            <nav aria-label="...">
+              <ul class="pagination">
+                <li class="page-item disabled">
+                  <span class="page-link">Попередня</span>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#!">1</a>
+                </li>
+                <li class="page-item active">
+                  <span class="page-link">
+                    2
+                    <span class="sr-only"> (поточна) </span>
+                  </span>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#!">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link" href="#!">Наступна</a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </div>
+      </div>
     </div>
   </div>
 </div>
 {% endblock dashboard_content %}
 <!-- Content End -->
+{% block scripts %}
+<script>
+  document.querySelectorAll(".clickable-row").forEach((row) => {
+    row.addEventListener("click", () => {
+      window.location.href = row.dataset.url;
+    });
+  });
+</script>
+{% endblock scripts %}

@@ -14,21 +14,6 @@ urlpatterns = [
         views.task_detail_view,
         name='task-detail'
     ),
-    # Task detail urlpattern with help AI
-    path(
-        'dashboard/task/detail/<int:task_id>/help/with/formula/',
-        views.get_help_formula_view,
-        name='get-help-formula'
-    ),
-    path(
-        'dashboard/task/detail/<int:task_id>/help/with/answer/',
-        views.get_help_answer_view,
-        name='get-help-answer'
-    ),
-    path('dashboard/task/detail/<int:task_id>/help/with/stucture/',
-
-         views.get_help_structure_view,
-         name='get-help-stucture'),
     # Team urlpattern
     path(
         'dashboard/teams/',
@@ -47,7 +32,10 @@ urlpatterns = [
     path('dashboard/tests/', views.list_test_view, name='list-tests'),
     path('dashboard/tests/detail/<int:test_id>/',
          views.test_detail_view, name='test-detail'),
+    # API urlpattern for creating test
     path('tests/create/test/', views.create_test_view, name='create-test'),
+    path('dashboard/create/test/',
+         views.create_test_page, name='create-test-page'),
 
     # Assessments urlpattern
     path('dashboard/assessments/', views.assessments_view, name='assessments'),

@@ -27,7 +27,7 @@
         </h6>
       </div>
       <div class="card-body">
-        <form action="#" method="POST">
+        <form method="POST">
           {% csrf_token %}
           <div class="col-md-12">
             <div class="mb-3">
@@ -116,24 +116,15 @@
             </div>
           </div>
           <div class="mt-2">
-            <button type="submit" class="btn btn-primary" id="ai-submit">
-              Створити
-              <i data-feather="check-circle"></i>
-              <!-- <i data-feather="x"></i>
-                <i data-feather="clock"></i>
-                <i data-feather="edit-2"></i>
-                <i data-feather="trash-2"></i>
-                <i data-feather="eye"></i>
-                <i data-feather="eye-off"></i>
-                <i data-feather="help-circle"></i>
-                <i data-feather="calendar"></i>
-                <i data-feather="download"></i>
-                <i data-feather="upload"></i>
-                <i data-feather="more-horizontal"></i>
-                <i data-feather="message-square"></i>
-                <i data-feather="user-plus"></i>
-                <i data-feather="user-minus"></i>
-                <i data-feather="user-check"></i> -->
+            <button type="submit" class="btn btn-primary fz-12" id="ai-submit">
+              <span class="btn-text">Створити </span>
+              <i data-feather="cpu"></i>
+
+              <span
+                class="spinner-border spinner-border-sm d-none"
+                role="status"
+                id="ai-spinner"
+              ></span>
             </button>
             <button type="reset" class="btn btn-danger">
               Скинути
@@ -153,29 +144,87 @@
         </h6>
       </div>
       <div class="card-body">
-        <p>
-          {% if result %} {{result}} {% else %} Цей інструмент дозволить швидко
-          створити тест для перевірки знань учня, майже на будь-яку тему, слід
-          розуміти, що цей інструмент не "абсолютний", він приходить на допомогу
-          вчителю для пришвидшення створення контроля знань. {% endif %}
+        <p id="ai-result">
+          Тут буде відповідь від AI після натискання кнопки "Створити"
         </p>
       </div>
     </div>
   </div>
 </div>
 {% endblock dashboard_content %}
+
 <!-- Content end -->
 {% block scripts %}
 <script>
-  // Your JavaScript code here
-  // Example:
-  // document
-  //   .getElementById("ai-submit")
-  //   .addEventListener("click", function (event) {
-  //     event.preventDefault();
-  //     // Your code here
-  //     // Example:
-  //     alert("Form submitted!");
-  //   });
+  const button = document.getElementById("ai-submit");
+  const spinner = document.getElementById("ai-spinner");
+  const buttonText = button.querySelector(".btn-text");
+  const aiContent = document.getElementById("ai-result");
+  const icon = button.querySelector("i");
+
+  function getCookie(name) {
+    return (
+      document.cookie
+        .split("; ")
+        .find((row) => row.startsWith(name + "="))
+        ?.split("=")[1] || null
+    );
+  }
+
+  button.addEventListener("click", async function (event) {
+    event.preventDefault();
+
+    const data = {
+      title: id_title.value,
+      topic: id_topic.value,
+      quantity_questions: id_quantity_questions.value,
+      form_class: id_form_class.value,
+      difficulty: id_difficulty.value,
+      description: id_description.value,
+    };
+
+    try {
+      button.disabled = true;
+      spinner.classList.remove("d-none");
+      buttonText.textContent = "Генерація...";
+
+      const prompt = `Створіть тест з параметрами: ${JSON.stringify(data)}`;
+
+      // AI request
+      const aiResponse = await fetch(
+        `https://gen.pollinations.ai/text/${encodeURIComponent(prompt)}`,
+        {
+          headers: {
+            Authorization: "Bearer sk_EQMStzbyORiuOw2mqqfU9xflSIMEuSUt",
+          },
+        },
+      );
+
+      aiContent.textContent = await aiResponse.text();
+
+      // Django request
+      const response = await fetch("{% url 'create-test' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      alert(
+        result.success ? "Тест створено успішно!" : "Помилка: " + result.error,
+      );
+    } catch (error) {
+      console.error(error);
+      alert("Помилка запиту");
+    } finally {
+      button.disabled = false;
+      spinner.classList.add("d-none");
+      buttonText.textContent = "Створити";
+    }
+  });
 </script>
 {% endblock scripts %}

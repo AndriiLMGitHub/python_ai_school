@@ -1,7 +1,10 @@
+import json
+
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from social_django.models import UserSocialAuth
 from django.contrib.auth.decorators import login_required
-from .models import Task, Team, TestWorkResponse, TestForUser, AnswerTest
+from .models import Task, Team, TestWorkRequest, TestWorkResponse, TestForUser, AnswerTest
 # from asgiref.sync import sync_to_async
 # from django.views.decorators.cache import never_cache
 from .forms import TaskForm, TeamForm, TestWorkForm, AnswerTestForm
@@ -9,7 +12,6 @@ from django.contrib import messages
 from django.utils import timezone
 from django.db.models import Q
 from .utils import get_team_members
-from .g4f import get_g4f_answer, get_g4f_formula, get_g4f_stucture
 from g4f.client import Client
 
 # Create your views here.
@@ -111,26 +113,6 @@ def task_detail_view(request, task_id):
     return render(request, 'app/dashboard/task_detail.html', {'task': task, 'form': form})
 
 
-def get_help_formula_view(request, task_id):
-    task = Task.objects.get(pk=task_id)
-    result = get_g4f_formula(task.description)
-    return render(request, 'app/dashboard/get_help.html', {'response': result, 'task': task})
-
-
-def get_help_answer_view(request, task_id):
-    task = Task.objects.get(pk=task_id)
-    result = get_g4f_answer(task.description)
-    return render(request, 'app/dashboard/get_help.html', {'response': result, 'task': task})
-
-
-def get_help_structure_view(request, task_id):
-    # Оскільки get_g4f_stucture вже асинхронна, ми можемо викликати її з await
-    # Синхронний виклик Task.objects.get
-    task = Task.objects.get(pk=task_id)
-    result = get_g4f_stucture(task.description)  # Ваш асинхронний виклик
-    return render(request, 'app/dashboard/get_help.html', {'response': result, 'task': task})
-
-
 # Team with Mememrs for team Views
 def teams_view(request):
     teams_all = []
@@ -170,56 +152,36 @@ def create_team_view(request):
     return render(request, 'app/dashboard/create_team.html', {'form': form})
 
 
-# @never_cache
-# @sync_to_async
 def create_test_view(request):
-    result = ""
-    form = TestWorkForm()
-    if request.method == 'POST':
-        form = TestWorkForm(request.POST)
-        if form.is_valid():
-            topic = request.POST.get('topic')
-            description = request.POST.get('description')
-            quantity = request.POST.get('quantity_questions')
-            form_class = request.POST.get('form_class')
-            difficulty = request.POST.get('difficulty')
-            result = g4f_create_test(
-                topic=topic, difficulty=difficulty, form_class=form_class, description=description, quantity=str(
-                    quantity)
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+
+            test = TestWorkRequest.objects.create(
+                title=data["title"],
+                topic=data["topic"],
+                quantity_questions=int(data["quantity_questions"]),
+                form_class=data["form_class"],
+                difficulty=data["difficulty"],
+                description=data.get("description", ""),
             )
-            print(quantity)
-            form.save()
-            TestWorkResponse.objects.create(
-                test_work=form.instance,
-                content=result,
-            )
-            messages.success(request, 'Тест успішно створено.')
-            return render(request, 'app/tests/create_test.html', {'result': result})
-        else:
-            messages.error(request, 'Помилка створення тесту.')
-    else:
-        form = TestWorkForm()
-    return render(request, 'app/tests/create_test.html', {'form': form, 'result': result})
+
+            return JsonResponse({
+                "success": True,
+                "id": test.id
+            })
+
+        except Exception as e:
+            return JsonResponse({
+                "success": False,
+                "error": str(e)
+            }, status=400)
+
+    return JsonResponse({"error": "Invalid method"}, status=405)
 
 
-def g4f_create_test(topic, difficulty, form_class, description, quantity):
-    client = Client()
-
-    # Add necessary parameters to the prompt
-    promt = "Склади " + difficulty + " тест для " + form_class + "-го класу на тему " + \
-        topic + description + "на " + quantity + "питань"
-
-    # Make the API request and get the response
-    response = client.chat.completions.create(
-        model="gpt-4o-mini",
-        messages=[
-            {
-                "role": "user",
-                "content": promt
-            }],
-        # Add any other necessary parameters
-    )
-    return response.choices[0].message.content
+def create_test_page(request):
+    return render(request, 'app/tests/create_test.html')
 
 
 def list_test_view(request):
@@ -235,8 +197,7 @@ def list_test_view(request):
             created_at__date=today, users=request.user)
         messages.success(request, 'Показано тести, створені сьогодні.')
     elif filter_option == 'week':
-        start_of_week = today - \
-            timezone.timedelta(days=today.weekday())
+        start_of_week = today - timezone.timedelta(days=today.weekday())
         tests = TestForUser.objects.filter(
             created_at__date__gte=start_of_week, users=request.user)
         messages.success(

@@ -18,7 +18,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    '127.0.0.1', 
+    '127.0.0.1',
     'localhost',
     "*",
     'andreycreatorwebapp.pythonanywhere.com',
@@ -156,10 +156,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-# STATIC_ROOT = BASE_DIR / 'static'
-STATICFILES_DIRS = (
-    BASE_DIR / 'static',  # let Django find static files in the project directory
-)
+STATIC_ROOT = BASE_DIR / 'static'
+# STATICFILES_DIRS = (
+#     BASE_DIR / 'static',  # let Django find static files in the project directory
+# )
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'

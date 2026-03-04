@@ -19,7 +19,7 @@
 <!--Title-->
 
 {% block title %}Перегляд завдання{% endblock title %}
-
+<!-- ExtraStyles -->
 <!--Dashboard main-->
 {% block dashboard_content%}
 <div class="row">
@@ -31,7 +31,7 @@
           {{ task.name }}
         </h5>
       </div>
-      <div class="card-body pc-component">
+      <div class="card-body pc-component" id="task-container">
         <p>{{ task.description }}</p>
       </div>
     </div>
@@ -127,33 +127,29 @@
       </div>
       <div class="card-body">
         <p>
-          <a href="{% url 'get-help-stucture' task.id %}"
-          class="btn btn-success {% if task.is_completed %}disabled{% else %}{% endif %}"
-          id="btn-response">
-          Допомогти з структурою
-          <i data-feather="aperture"></i>
-        </a>
-      </p>
-        <p>
-          <a
-            href="{% url 'get-help-formula' task.id %}"
-            class="btn btn-warning {% if task.is_completed %}disabled{% else %}{% endif %}"
-            id="btn-response"
+          <button
+            type="button"
+            class="ai-submit-button btn btn-primary"
+            data-mode="structure"
+            data-text="Допомогти з структурою"
           >
-            Допомогти з формулою
-            <i data-feather="aperture"></i>
-          </a>
-          
+            <span class="btn-text">Допомогти з структурою</span>
+            <span class="spinner-border spinner-border-sm d-none"></span>
+          </button>
         </p>
+        
         <p>
-          <!-- <a
-            href="{% url 'get-help-answer' task.id %}"
-            class="btn btn-warning {% if task.is_completed %}disabled{% else %}{% endif %}"
-            id="btn-response"
-          >
-            Допомогти з задачою
-            <i data-feather="aperture"></i>
-          </a> -->
+          <button
+            type="button"
+            class="ai-submit-button btn btn-success"
+            data-mode="formula"
+            data-text="Допомогти з формулою"
+            >
+              <span class="btn-text">Допомогти з формулою</span>
+              <span class="spinner-border spinner-border-sm d-none"></span>
+          </button>
+        </p>
+
           <p>
             <span class="badge rounded-pill text-bg-warning text-dark">Можуть працювати не коректно</span>
             <small class="text-muted">Можуть працювати не коректно</small>
@@ -162,6 +158,138 @@
       </div>
     </div>
   </div>
+<div class="modal fade modal-animate" id="aiResultModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Відповідь AI</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                >
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="ai-response"></div>
+                <div id="ai-error-response" class="text-danger"></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
   {% endblock dashboard_content %}
   <!---->
 </div>
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const taskContainer = document.getElementById("task-container");
+    const aiResponse = document.getElementById("ai-response");
+    const aiErrorResponse = document.getElementById("ai-error-response");
+
+    const modalElement = document.getElementById("aiResultModal");
+
+    const aiModal = new bootstrap.Modal(modalElement, {
+        backdrop: true,
+        keyboard: true,
+        focus: true
+    });
+
+    // ===============================
+    // AI REQUEST
+    // ===============================
+
+    async function callAI(prompt) {
+
+    const response = await fetch(
+        "https://gen.pollinations.ai/v1/chat/completions",
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: "Bearer sk_EQMStzbyORiuOw2mqqfU9xflSIMEuSUt"
+            },
+            body: JSON.stringify({
+                model: "openai",
+                messages: [{ role: "user", content: prompt }]
+            })
+        }
+    );
+
+    const data = await response.json();
+
+    return data?.choices?.[0]?.message?.content || "Порожня відповідь AI";
+}
+
+    // ===============================
+    // EVENT HANDLER (DELEGATION)
+    // ===============================
+
+    document.body.addEventListener("click", async event => {
+
+        const button = event.target.closest(".ai-submit-button");
+
+        if (!button) return;
+
+        event.preventDefault();
+
+        const mode = button.dataset.mode;
+        const defaultText = button.dataset.text;
+
+        const spinner = button.querySelector(".spinner-border");
+        const btnText = button.querySelector(".btn-text");
+
+        const taskText = taskContainer?.innerText.trim();
+
+        if (!taskText) {
+            aiErrorResponse.textContent = "Текст задачі порожній";
+            return;
+        }
+
+        let prompt = taskText;
+
+        if (mode === "structure") {
+            prompt += "\n\nНапиши покроково без розв'язку.";
+        }
+
+        if (mode === "formula") {
+            prompt += "\n\nНапиши тільки одну формулу без пояснень.";
+        }
+
+        try {
+
+          aiErrorResponse.textContent = "";
+
+          button.disabled = true;
+
+          if (spinner) spinner.classList.remove("d-none");
+
+          btnText.textContent = "Генерація...";
+
+          const result = await callAI(prompt);
+
+          aiResponse.textContent = result;
+
+          aiModal.show();
+
+      } catch (error) {
+
+          aiErrorResponse.textContent = error.message;
+          aiModal.show();
+
+      } finally {
+
+          button.disabled = false;
+
+          if (spinner) spinner.classList.add("d-none");
+
+          btnText.textContent = defaultText;
+      }
+
+    });
+
+});
+</script>
+{% endblock scripts %}
